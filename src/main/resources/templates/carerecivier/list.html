@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{carerecivier.list.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 th:text="#{carerecivier.list.headline}" class="flex-grow-1" />
+                <div>
+                    <a th:href="@{/carereciviers/add}" th:text="#{carerecivier.list.createNew}" class="btn btn-primary ms-2" />
+                </div>
+            </div>
+            <div th:if="${carereciviers.empty}" th:text="#{carerecivier.list.empty}" />
+            <div th:if="${!carereciviers.empty}" class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th th:text="#{carerecivier.id.label}" scope="col" />
+                            <th th:text="#{carerecivier.firstname.label}" scope="col" />
+                            <th th:text="#{carerecivier.lastname.label}" scope="col" />
+                            <th th:text="#{carerecivier.email.label}" scope="col" />
+                            <th th:text="#{carerecivier.password.label}" scope="col" />
+                            <th th:text="#{carerecivier.elderyName.label}" scope="col" />
+                            <th th:text="#{carerecivier.elderyBithDate.label}" scope="col" />
+                            <th th:text="#{carerecivier.role.label}" scope="col" />
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="carerecivier : ${carereciviers}">
+                            <td th:text="${carerecivier.id}" />
+                            <td th:text="${carerecivier.firstname}" />
+                            <td th:text="${carerecivier.lastname}" />
+                            <td th:text="${carerecivier.email}" />
+                            <td th:text="${carerecivier.password}" />
+                            <td th:text="${carerecivier.elderyName}" />
+                            <td th:text="${carerecivier.elderyBithDate}" />
+                            <td th:text="${carerecivier.role}" />
+                            <td>
+                                <div class="float-end text-nowrap">
+                                    <a th:href="@{/carereciviers/edit/{id}(id=${carerecivier.id})}" th:text="#{carerecivier.list.edit}" class="btn btn-sm btn-info" />
+                                    <form th:action="@{/carereciviers/delete/{id}(id=${carerecivier.id})}"
+                                            th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
+                                        <button th:text="#{carerecivier.list.delete}" type="submit" class="btn btn-sm btn-danger" />
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
