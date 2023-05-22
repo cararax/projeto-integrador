@@ -1,32 +1,24 @@
 package com.carara.my_app.domain;
 
 import com.carara.my_app.model.Role;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
-import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
-
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 
 
 @Entity
 @Getter
 @Setter
-public class Carerecivier  implements UserDetails {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Carerecivier implements UserDetails {
 
     @Id
     @Column(nullable = false, updatable = false)
