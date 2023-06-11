@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div th:replace="~{fragments/forms::globalErrors('city')}" />
-            <form th:action="${T(com.carara.my_app.util.WebUtils).getRequest().requestURI}" method="post">
+            <form th:action="${T(com.carara.nursenow.util.WebUtils).getRequest().requestURI}" method="post">
                 <div th:replace="~{fragments/forms::inputRow(object='city', field='name')}" />
                 <input type="submit" th:value="#{city.edit.headline}" class="btn btn-primary mt-4" />
             </form>

@@ -1,18 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <title th:text="#{app.title}" layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE" />
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}" rel="stylesheet" />
-        <link th:href="@{/webjars/flatpickr/4.6.13/dist/flatpickr.min.css}" rel="stylesheet" />
-        <link th:href="@{/css/app.css}" rel="stylesheet" />
-        <script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.bundle.min.js}" defer></script>
-        <script th:src="@{/webjars/flatpickr/4.6.13/dist/flatpickr.min.js}" defer></script>
-        <script th:src="@{/js/app.js}" defer></script>
+        <link th:if="${T(com.carara.nursenow.util.WebUtils).getRequest().getHeader('X-Devserver') != '1'}"
+                th:href="@{/css/bundle.css}" rel="stylesheet" />
+        <script th:src="@{/js/bundle.js}" defer></script>
     </head>
-    <body>
+    <body hx-boost="true">
         <header class="bg-light">
             <div class="container">
                 <nav class="navbar navbar-light navbar-expand-md">
@@ -33,13 +31,18 @@
                                 <a th:text="#{navigation.entities}" class="nav-link dropdown-toggle" href="#" id="navbarEntitiesLink" role="button"
                                         data-bs-toggle="dropdown" aria-expanded="false" />
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarEntitiesLink">
-                                    <li><a th:href="@{/caregivers}" th:text="#{caregiver.list.headline}" class="dropdown-item" /></li>
-                                    <li><a th:href="@{/carereciviers}" th:text="#{carerecivier.list.headline}" class="dropdown-item" /></li>
-                                    <li><a th:href="@{/services}" th:text="#{service.list.headline}" class="dropdown-item" /></li>
-                                    <li><a th:href="@{/experiences}" th:text="#{experience.list.headline}" class="dropdown-item" /></li>
-                                    <li><a th:href="@{/bookings}" th:text="#{booking.list.headline}" class="dropdown-item" /></li>
+                                    <li><a th:href="@{/userss}" th:text="#{users.list.headline}" class="dropdown-item" /></li>
                                     <li><a th:href="@{/citys}" th:text="#{city.list.headline}" class="dropdown-item" /></li>
+                                    <li><a th:href="@{/experiences}" th:text="#{experience.list.headline}" class="dropdown-item" /></li>
+                                    <li><a th:href="@{/services}" th:text="#{service.list.headline}" class="dropdown-item" /></li>
+                                    <li><a th:href="@{/bookings}" th:text="#{booking.list.headline}" class="dropdown-item" /></li>
                                 </ul>
+                            </li>
+                            <li class="navbar-item">
+                                <a sec:authorize="!isAuthenticated()" th:href="@{/login}" th:text="#{navigation.login}" class="nav-link" />
+                                <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="nav-link">
+                                    <input th:value="#{navigation.logout}" type="submit" class="unset" />
+                                </form>
                             </li>
                         </ul>
                     </div>

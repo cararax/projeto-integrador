@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div th:replace="~{fragments/forms::globalErrors('experience')}" />
-            <form th:action="${T(com.carara.my_app.util.WebUtils).getRequest().requestURI}" method="post">
+            <form th:action="${T(com.carara.nursenow.util.WebUtils).getRequest().requestURI}" method="post">
                 <div th:replace="~{fragments/forms::inputRow(object='experience', field='company')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='experience', field='description', type='textarea')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='experience', field='startDate', inputClass='js-datepicker')}" />

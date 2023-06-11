@@ -12,6 +12,7 @@
                     <a th:href="@{/citys/add}" th:text="#{city.list.createNew}" class="btn btn-primary ms-2" />
                 </div>
             </div>
+            <div th:replace="~{fragments/utils::searchFilter(object='city')}" />
             <div th:if="${citys.empty}" th:text="#{city.list.empty}" />
             <div th:if="${!citys.empty}" class="table-responsive">
                 <table class="table table-striped table-hover align-middle">
@@ -30,7 +31,7 @@
                                 <div class="float-end text-nowrap">
                                     <a th:href="@{/citys/edit/{id}(id=${city.id})}" th:text="#{city.list.edit}" class="btn btn-sm btn-info" />
                                     <form th:action="@{/citys/delete/{id}(id=${city.id})}"
-                                            th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
+                                            th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
                                         <button th:text="#{city.list.delete}" type="submit" class="btn btn-sm btn-danger" />
                                     </form>
                                 </div>
@@ -39,6 +40,7 @@
                     </tbody>
                 </table>
             </div>
+            <div th:replace="~{fragments/utils::pagination()}" />
         </div>
     </body>
 </html>

@@ -13,9 +13,9 @@
                 </div>
             </div>
             <div th:replace="~{fragments/forms::globalErrors('booking')}" />
-            <form th:action="${T(com.carara.my_app.util.WebUtils).getRequest().requestURI}" method="post">
-                <div th:replace="~{fragments/forms::inputRow(object='booking', field='startDateTime', inputClass='js-datetimepicker')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='booking', field='endDateTime', inputClass='js-datetimepicker')}" />
+            <form th:action="${T(com.carara.nursenow.util.WebUtils).getRequest().requestURI}" method="post">
+                <div th:replace="~{fragments/forms::inputRow(object='booking', field='startDateTime')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='booking', field='endDateTime')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='booking', field='caregiver', type='select')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='booking', field='carerecivier', type='select')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='booking', field='services', type='select')}" />
