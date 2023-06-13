@@ -2,14 +2,13 @@ package com.carara.nursenow.model;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 
 
 @Getter
 @Setter
-public class RegistrationRequest {
+public class CaregiverRequest {
 
     @NotNull
     @Size(max = 255)
@@ -27,18 +26,9 @@ public class RegistrationRequest {
     @Size(max = 255)
     private String password;
 
-//    @NotNull
+    @NotNull
     private ROLE role;
 
-    private Long city;
-
     private String description;
-
-    @Size(max = 255)
-    private String elderyName;
-
-    private String healthDetails;
-
-    private LocalDate elderyBirthDate;
 
 }

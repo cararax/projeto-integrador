@@ -26,6 +26,7 @@ public class RegistrationService {
     }
 
     public void register(final RegistrationRequest registrationRequest) {
+        //todo: adicionar log para cada tipo de usuario
         log.info("registering new user: {}", registrationRequest.getEmail());
 
         final Users users = new Users();
