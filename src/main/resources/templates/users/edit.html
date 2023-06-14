@@ -18,14 +18,20 @@
                 <div th:replace="~{fragments/forms::inputRow(object='users', field='lastname')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='users', field='email')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='users', field='password', type='password')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='users', field='role', type='radio')}" />
+<!--                <div th:replace="~{fragments/forms::inputRow(object='users', field='role', type='radio')}" />-->
                 <div th:replace="~{fragments/forms::inputRow(object='users', field='description', type='textarea')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='users', field='elderyName')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='users', field='healthDetails', type='textarea')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='users', field='elderyBirthDate', inputClass='js-datepicker')}" />
+
+                <!-- Exibição condicional de elderyName, elderyBirthDate e healthDetails -->
+                <div th:if="${users.role.name == 'CARERECIVIER'}">
+                    <div th:replace="~{fragments/forms::inputRow(object='users', field='elderyName')}" />
+                    <div th:replace="~{fragments/forms::inputRow(object='users', field='healthDetails', type='textarea')}" />
+                    <div th:replace="~{fragments/forms::inputRow(object='users', field='elderyBirthDate', inputClass='js-datepicker')}" />
+                </div>
+
                 <div th:replace="~{fragments/forms::inputRow(object='users', field='city', type='select')}" />
                 <input type="submit" th:value="#{users.edit.headline}" class="btn btn-primary mt-4" />
             </form>
+
         </div>
     </body>
 </html>

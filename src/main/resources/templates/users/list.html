@@ -41,6 +41,7 @@
                             <td th:text="${users.city}" />
                             <td>
                                 <div class="float-end text-nowrap">
+                                    <a th:href="@{/userss/profile/{id}(id=${users.id})}" th:text="#{users.list.view}" class="btn btn-sm btn-light" />
                                     <a th:href="@{/userss/edit/{id}(id=${users.id})}" th:text="#{users.list.edit}" class="btn btn-sm btn-info" />
                                     <form th:action="@{/userss/delete/{id}(id=${users.id})}"
                                             th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">

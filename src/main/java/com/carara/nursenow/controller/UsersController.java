@@ -62,6 +62,11 @@ public class UsersController {
     public String add(@ModelAttribute("users") final UsersDTO usersDTO) {
         return "users/add";
     }
+    @GetMapping("/profile/{id}")
+    public String profile(@PathVariable final Long id, final Model model) {
+        model.addAttribute("users", usersService.get(id));
+        return "users/profile";
+    }
 
     @PostMapping("/add")
     public String add(@ModelAttribute("users") @Valid final UsersDTO usersDTO,

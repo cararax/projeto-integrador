@@ -27,6 +27,12 @@
                             <li class="navbar-item">
                                 <a th:href="@{/}" th:text="#{navigation.home}" class="nav-link" />
                             </li>
+                            <li>
+                                <a th:href="@{/userss/profile}" th:text="#{navigation.profile}" class="nav-link" />
+                            </li>
+<!--                            <li>-->
+<!--                                <a th:href="@{/}" th:text="${#authentication.principal.username}" class="nav-link"></a>-->
+<!--                            </li>-->
                             <li class="navbar-item dropdown">
                                 <a th:text="#{navigation.entities}" class="nav-link dropdown-toggle" href="#" id="navbarEntitiesLink" role="button"
                                         data-bs-toggle="dropdown" aria-expanded="false" />
