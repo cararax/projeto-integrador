@@ -20,6 +20,10 @@
                 <div th:replace="~{fragments/forms::inputRow(object='experience', field='endDate', inputClass='js-datepicker')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='experience', field='caregiver', type='select')}" />
                 <input type="submit" th:value="#{experience.edit.headline}" class="btn btn-primary mt-4" />
+                <form th:action="@{/experiences/delete/{id}(id=${experience.id})}"
+                      th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
+                    <button th:text="#{experience.list.delete}" type="submit" class="btn btn-sm btn-danger" />
+                </form>
             </form>
         </div>
     </body>

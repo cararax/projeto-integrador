@@ -89,14 +89,16 @@ public class ExperienceController {
         }
         experienceService.update(id, experienceDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("experience.update.success"));
-        return "redirect:/experiences";
+//        return "redirect:/experiences";
+        return "redirect:/userss/profile";
     }
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable final Long id, final RedirectAttributes redirectAttributes) {
         experienceService.delete(id);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("experience.delete.success"));
-        return "redirect:/experiences";
+//        return "redirect:/experiences";
+        return "redirect:/userss/profile";
     }
 
 }

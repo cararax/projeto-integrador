@@ -21,23 +21,81 @@
         <div class="container">
             <h1>Ver Perfil</h1>
             <div class="row">
-                <div class="col-md-6">
-                    <!--          <h2 th:text="#{users.profile.info} ${users.firstname}" />-->
-                    <ul>
-                        <li><strong>Firstname:</strong> <span th:text="${users.firstname}"></span></li>
-                        <li><strong>Lastname:</strong> <span th:text="${users.lastname}"></span></li>
-                        <li><strong>Email:</strong> <span th:text="${users.email}"></span></li>
-                        <li><strong>Description:</strong> <span th:text="${users.description}"></span></li>
-                        <li><strong>City:</strong> <span th:text="${users.city}"></span></li>
-
-                    </ul>
+                <div class="col-md-12 text-center">
+                    <div class="d-flex">
+                        <div class="col-md-6">
+                            <ul>
+                                <li><strong th:text="#{users.firstname.label}"/>: <span
+                                        th:text="${users.firstname}"></span></li>
+                                <li><strong th:text="#{users.lastname.label}"/>: <span
+                                        th:text="${users.lastname}"></span></li>
+                                <li><strong th:text="#{users.email.label}"/>: <span th:text="${users.email}"></span>
+                                </li>
+                                <li><strong th:text="#{users.description.label}"/>: <span
+                                        th:text="${users.description}"></span>
+                                </li>
+                                <li><strong th:text="#{users.city.label}"/><span th:text="${users.city.name}"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <!-- Outras seções do perfil, como foto do perfil, informações adicionais, etc. -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>Experiências</h2>
+                        <div>
+                            <a th:href="@{/experiences/add}" th:text="#{experience.list.createNew}"
+                               class="btn btn-primary ms-2"/>
+                        </div>
+                        <ul>
+                            <li th:each="experience : ${users.experience}">
+                                <strong th:text="${experience.company}"></strong>
+                                <span><strong th:text="#{experience.description.label}"/>: <span
+                                        th:text="${experience.description}"></span></span>
+                                <span><strong th:text="#{experience.startDate.label}"/>: <span
+                                        th:text="${experience.startDate}"></span></span>
+                                <span><strong th:text="#{experience.endDate.label}"/>: <span
+                                        th:text="${experience.endDate}"></span></span>
+                                <a th:href="@{/experiences/edit/{id}(id=${experience.id})}"
+                                   class="btn btn-primary" th:text="#{botao.editar}"/>
+                                <form th:action="@{/experiences/delete/{id}(id=${experience.id})}"
+                                      th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
+                                    <button th:text="#{experience.list.delete}" type="submit"
+                                            class="btn btn-sm btn-danger"/>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h2>Serviços</h2>
+                        <div>
+                            <a th:href="@{/services/add}" th:text="#{service.list.createNew}"
+                               class="btn btn-primary ms-2"/>
+                        </div>
+                        <ul>
+                            <li th:each="service : ${users.service}">
+                                <strong th:text="${service.name}"></strong>
+                                <span><strong th:text="#{service.duration.label}"/>: <span
+                                        th:text="${service.duration}"></span></span>
+                                <span><strong th:text="#{service.description.label}"/>:  <span
+                                        th:text="${service.description}"></span></span>
+                                <span><strong th:text="#{service.price.label}"/>: <span
+                                        th:text="${service.price}"></span></span>
+                                <a th:href="@{/services/edit/{id}(id=${service.id})}" class="btn btn-primary"
+                                   th:text="#{botao.editar}"/>
+                                <form th:action="@{/services/delete/{id}(id=${service.id})}"
+                                      th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
+                                    <button th:text="#{service.list.delete}" type="submit"
+                                            class="btn btn-sm btn-danger"/>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
     </main>
+
+
 </div>
 </body>
 </html>

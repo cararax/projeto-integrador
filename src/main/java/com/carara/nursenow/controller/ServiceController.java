@@ -89,7 +89,8 @@ public class ServiceController {
         }
         serviceService.update(id, serviceDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("service.update.success"));
-        return "redirect:/services";
+//        return "redirect:/services";
+        return "redirect:/userss/profile";
     }
 
     @PostMapping("/delete/{id}")
@@ -101,7 +102,8 @@ public class ServiceController {
             serviceService.delete(id);
             redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("service.delete.success"));
         }
-        return "redirect:/services";
+//        return "redirect:/services";
+        return "redirect:/userss/profile";
     }
 
 }
