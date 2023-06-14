@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <title>Escolha o Tipo de Registro</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <h1 th:text="#{registration.register.choose-role}"/>
+  <a th:href="@{/register/caregiver}" class="btn btn-primary" th:text="#{registration.register.caregiver}" />
+  <a th:href="@{/register/carerecivier}" class="btn btn-primary" th:text="#{registration.register.carerecivier}" />
+</div>
+</body>
+</html>

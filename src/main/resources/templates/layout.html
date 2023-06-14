@@ -27,9 +27,9 @@
                             <li class="navbar-item">
                                 <a th:href="@{/}" th:text="#{navigation.home}" class="nav-link" />
                             </li>
-                            <li>
-                                <a th:href="@{/userss/profile}" th:text="#{navigation.profile}" class="nav-link" />
-                            </li>
+<!--                            <li>-->
+<!--                                <a th:href="@{/userss/profile}" th:text="#{navigation.profile}" class="nav-link" />-->
+<!--                            </li>-->
 <!--                            <li>-->
 <!--                                <a th:href="@{/}" th:text="${#authentication.principal.username}" class="nav-link"></a>-->
 <!--                            </li>-->
@@ -45,11 +45,20 @@
                                 </ul>
                             </li>
                             <li class="navbar-item">
-                                <a sec:authorize="!isAuthenticated()" th:href="@{/login}" th:text="#{navigation.login}" class="nav-link" />
+                                <a sec:authorize="!isAuthenticated()" th:href="@{/register/choose-role}" th:text="#{registration.register.register}" class="nav-link" />
                                 <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="nav-link">
                                     <input th:value="#{navigation.logout}" type="submit" class="unset" />
                                 </form>
                             </li>
+<!--                            &lt;!&ndash; Modificações para usuários não logados &ndash;&gt;-->
+<!--                            <li sec:authorize="!isAuthenticated()" class="navbar-item">-->
+<!--                                <a th:href="@{/register/carerecivier}" th:text="#{registration.register.carerecivier}"-->
+<!--                                   class="nav-link"></a>-->
+<!--                            </li>-->
+<!--                            <li sec:authorize="!isAuthenticated()" class="navbar-item">-->
+<!--                                <a th:href="@{/register/caregiver}" th:text="#{registration.register.caregiver}"-->
+<!--                                   class="nav-link"></a>-->
+<!--                            </li>-->
                         </ul>
                     </div>
                 </nav>

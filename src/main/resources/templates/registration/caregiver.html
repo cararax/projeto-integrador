@@ -6,12 +6,12 @@
     </head>
     <body>
         <div layout:fragment="content">
-            <h1 th:text="#{registration.register.headline}" class="mb-4"/>
+            <h1 th:text="#{registration.register.caregiver}" class="mb-4"/>
             <div th:replace="~{fragments/forms::globalErrors('registrationRequest')}"/>
             <form th:action="${T(com.carara.nursenow.util.WebUtils).getRequest().requestURI}" method="post">
                 <div th:replace="~{fragments/forms::inputRow(object='registrationRequest', field='firstname')}"/>
                 <div th:replace="~{fragments/forms::inputRow(object='registrationRequest', field='lastname')}"/>
-                <div th:replace="~{fragments/forms::inputRow(object='registrationRequest', field='email')}"/>
+                <div th:replace="~{fragments/forms::inputRow(object='registrationRequest', field='email', type='email')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='registrationRequest', field='password', type='password')}"/>
                 <div th:replace="~{fragments/forms::inputRow(object='registrationRequest', field='city', type='select')}" />
                 <input type="submit" th:value="#{registration.register.headline}" class="btn btn-primary mt-4"/>

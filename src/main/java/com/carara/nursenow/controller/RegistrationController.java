@@ -42,9 +42,9 @@ public class RegistrationController {
                 .collect(CustomCollectors.toSortedMap(City::getId, City::getName)));
     }
 
-    @GetMapping("/register")
+    @GetMapping("/register/choose-role")
     public String register(@ModelAttribute final RegistrationRequest registrationRequest) {
-        return "registration/chooseRole";
+        return "registration/choose-role";
     }
 
 //    @GetMapping("/register/chooseRole")
