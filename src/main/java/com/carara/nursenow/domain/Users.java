@@ -1,18 +1,11 @@
 package com.carara.nursenow.domain;
 
 import com.carara.nursenow.model.ROLE;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
+import java.util.Set;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -55,8 +48,14 @@ public class Users {
     @Column
     private LocalDate elderyBirthDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "city_id")
     private City city;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "caregiver")
+    private Set<Experience> experience;
+
+    @OneToMany(fetch = FetchType.EAGER ,mappedBy = "caregiver")
+    private Set<Service> service;
 
 }

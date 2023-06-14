@@ -15,6 +15,7 @@ import com.carara.nursenow.util.NotFoundException;
 import com.carara.nursenow.util.WebUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +65,10 @@ public class UsersService {
         return usersRepository.findById(id)
                 .map(users -> mapToDTO(users, new UsersDTO()))
                 .orElseThrow(NotFoundException::new);
+    }
+
+    public Users getByEmailIgnoreCase(UserDetails userDetails) {
+        return usersRepository.findByEmailIgnoreCase(userDetails.getUsername());
     }
 
     public Long create(final UsersDTO usersDTO) {

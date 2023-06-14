@@ -1,6 +1,7 @@
 package com.carara.nursenow.controller;
 
 import com.carara.nursenow.domain.City;
+import com.carara.nursenow.domain.Users;
 import com.carara.nursenow.model.ROLE;
 import com.carara.nursenow.model.SimplePage;
 import com.carara.nursenow.model.UsersDTO;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -49,8 +52,8 @@ public class UsersController {
 
     @GetMapping
     public String list(@RequestParam(required = false) final String filter,
-            @SortDefault(sort = "id") @PageableDefault(size = 20) final Pageable pageable,
-            final Model model) {
+                       @SortDefault(sort = "id") @PageableDefault(size = 20) final Pageable pageable,
+                       final Model model) {
         final SimplePage<UsersDTO> userss = usersService.findAll(filter, pageable);
         model.addAttribute("userss", userss);
         model.addAttribute("filter", filter);
@@ -62,15 +65,31 @@ public class UsersController {
     public String add(@ModelAttribute("users") final UsersDTO usersDTO) {
         return "users/add";
     }
+
     @GetMapping("/profile/{id}")
-    public String profile(@PathVariable final Long id, final Model model) {
+    public String profile(@PathVariable("id") final Long id, final Model model) {
         model.addAttribute("users", usersService.get(id));
         return "users/profile";
     }
 
+    @GetMapping("/profile")
+    public String profile(Model model) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Users user = usersService.getByEmailIgnoreCase(userDetails);
+
+        model.addAttribute("users", user);
+
+        if (user.getRole() == ROLE.CAREGIVER) {
+            return "users/caregiver";
+        } else {
+            return "users/carerecivier";
+        }
+    }
+
+
     @PostMapping("/add")
     public String add(@ModelAttribute("users") @Valid final UsersDTO usersDTO,
-            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+                      final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (!bindingResult.hasFieldErrors("email") && usersService.emailExists(usersDTO.getEmail())) {
             bindingResult.rejectValue("email", "Exists.users.email");
         }
@@ -83,15 +102,15 @@ public class UsersController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable final Long id, final Model model) {
+    public String edit(@PathVariable("id") final Long id, final Model model) {
         model.addAttribute("users", usersService.get(id));
         return "users/edit";
     }
 
     @PostMapping("/edit/{id}")
     public String edit(@PathVariable final Long id,
-            @ModelAttribute("users") @Valid final UsersDTO usersDTO,
-            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+                       @ModelAttribute("users") @Valid final UsersDTO usersDTO,
+                       final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         final UsersDTO currentUsersDTO = usersService.get(id);
         if (!bindingResult.hasFieldErrors("email") &&
                 !usersDTO.getEmail().equalsIgnoreCase(currentUsersDTO.getEmail()) &&
