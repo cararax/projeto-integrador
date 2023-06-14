@@ -1,8 +1,11 @@
 spring:
   datasource:
-    password: ${JDBC_DATABASE_PASSWORD:password}
-    username: ${JDBC_DATABASE_USERNAME:postgres}
     url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/nursenow}
+    username: ${JDBC_DATABASE_USERNAME:postgres}
+    password: ${JDBC_DATABASE_PASSWORD:password}
+
+  messages:
+    encoding: ISO-8859-1
 
   jpa:
     hibernate:
