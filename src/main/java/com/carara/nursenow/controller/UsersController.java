@@ -8,8 +8,10 @@ import com.carara.nursenow.model.UsersDTO;
 import com.carara.nursenow.repos.CityRepository;
 import com.carara.nursenow.service.UsersService;
 import com.carara.nursenow.util.CustomCollectors;
+import com.carara.nursenow.util.NotFoundException;
 import com.carara.nursenow.util.WebUtils;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+@Slf4j
 @Controller
 @RequestMapping("/userss")
 @PreAuthorize("hasAuthority('" + ROLE.Fields.CAREGIVER + "')")
@@ -75,7 +78,7 @@ public class UsersController {
     @GetMapping("/profile")
     public String profile(Model model) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Users user = usersService.getByEmailIgnoreCase(userDetails);
+        Users user = usersService.getByEmailIgnoreCase(userDetails.getUsername());
 
         model.addAttribute("users", user);
 
@@ -94,6 +97,7 @@ public class UsersController {
             bindingResult.rejectValue("email", "Exists.users.email");
         }
         if (bindingResult.hasErrors()) {
+            log.info("{}", bindingResult.getAllErrors());
             return "users/add";
         }
         usersService.create(usersDTO);
@@ -118,11 +122,12 @@ public class UsersController {
             bindingResult.rejectValue("email", "Exists.users.email");
         }
         if (bindingResult.hasErrors()) {
+            log.info("{}", bindingResult.getAllErrors());
             return "users/edit";
         }
-        usersService.update(id, usersDTO);
+        usersService.updateUser(id, usersDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("users.update.success"));
-        return "redirect:/userss";
+        return "redirect:/userss/profile";
     }
 
     @PostMapping("/delete/{id}")
@@ -137,4 +142,6 @@ public class UsersController {
         return "redirect:/userss";
     }
 
+
 }
+

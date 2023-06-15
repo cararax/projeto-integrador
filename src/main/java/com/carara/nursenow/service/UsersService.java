@@ -31,8 +31,8 @@ public class UsersService {
     private final BookingRepository bookingRepository;
 
     public UsersService(final UsersRepository usersRepository, final CityRepository cityRepository,
-            final PasswordEncoder passwordEncoder, final ExperienceRepository experienceRepository,
-            final ServiceRepository serviceRepository, final BookingRepository bookingRepository) {
+                        final PasswordEncoder passwordEncoder, final ExperienceRepository experienceRepository,
+                        final ServiceRepository serviceRepository, final BookingRepository bookingRepository) {
         this.usersRepository = usersRepository;
         this.cityRepository = cityRepository;
         this.passwordEncoder = passwordEncoder;
@@ -67,8 +67,8 @@ public class UsersService {
                 .orElseThrow(NotFoundException::new);
     }
 
-    public Users getByEmailIgnoreCase(UserDetails userDetails) {
-        return usersRepository.findByEmailIgnoreCase(userDetails.getUsername());
+    public Users getByEmailIgnoreCase(String username) {
+        return usersRepository.findByEmailIgnoreCase(username);
     }
 
     public Long create(final UsersDTO usersDTO) {
@@ -78,10 +78,59 @@ public class UsersService {
     }
 
     public void update(final Long id, final UsersDTO usersDTO) {
-        final Users users = usersRepository.findById(id)
-                .orElseThrow(NotFoundException::new);
-        mapToEntity(usersDTO, users);
-        usersRepository.save(users);
+//        final Users users = usersRepository.findById(id)
+//                .orElseThrow(NotFoundException::new);
+//        mapToEntity(usersDTO, users);
+//        usersRepository.save(users);
+
+        UsersDTO existingUser = getUserById(id);
+
+        if (existingUser != null) {
+            if (usersDTO.getFirstname() != null) {
+                existingUser.setFirstname(usersDTO.getFirstname());
+            }
+
+            if (usersDTO.getLastname() != null) {
+                existingUser.setLastname(usersDTO.getLastname());
+            }
+
+            if (usersDTO.getEmail() != null) {
+                existingUser.setEmail(usersDTO.getEmail());
+            }
+
+            if (usersDTO.getPassword() != null) {
+                existingUser.setPassword(usersDTO.getPassword());
+            }
+
+//            if (usersDTO.getRole() = null) {
+//                existingUser.setRole(usersDTO.getRole());
+//            }
+
+            if (usersDTO.getDescription() != null) {
+                existingUser.setDescription(usersDTO.getDescription());
+            }
+
+            if (usersDTO.getElderyName() != null) {
+                existingUser.setElderyName(usersDTO.getElderyName());
+            }
+
+            if (usersDTO.getHealthDetails() != null) {
+                existingUser.setHealthDetails(usersDTO.getHealthDetails());
+            }
+
+            if (usersDTO.getElderyBirthDate() != null) {
+                existingUser.setElderyBirthDate(usersDTO.getElderyBirthDate());
+            }
+
+            if (usersDTO.getCity() != null) {
+//                cityRepository.findById(usersDTO.getCity()).ifPresent(existingUser::setCity);
+                existingUser.setCity(usersDTO.getCity());
+            }
+            Users user = new Users();
+            mapToEntity(usersDTO, user);
+            usersRepository.save(user);
+
+        }
     }
 
     public void delete(final Long id) {
@@ -93,6 +142,7 @@ public class UsersService {
         usersDTO.setFirstname(users.getFirstname());
         usersDTO.setLastname(users.getLastname());
         usersDTO.setEmail(users.getEmail());
+        usersDTO.setPassword(passwordEncoder.encode(users.getPassword()));
         usersDTO.setRole(users.getRole());
         usersDTO.setDescription(users.getDescription());
         usersDTO.setElderyName(users.getElderyName());
@@ -106,7 +156,7 @@ public class UsersService {
         users.setFirstname(usersDTO.getFirstname());
         users.setLastname(usersDTO.getLastname());
         users.setEmail(usersDTO.getEmail());
-        users.setPassword(passwordEncoder.encode(usersDTO.getPassword()));
+        users.setPassword(usersDTO.getPassword());
         users.setRole(usersDTO.getRole());
         users.setDescription(usersDTO.getDescription());
         users.setElderyName(usersDTO.getElderyName());
@@ -144,4 +194,58 @@ public class UsersService {
         return null;
     }
 
+    public void updateUser(Long id, UsersDTO usersDTO) {
+        UsersDTO existingUser = getUserById(id);
+
+        if (existingUser != null) {
+            if (usersDTO.getFirstname() != null) {
+                existingUser.setFirstname(usersDTO.getFirstname());
+            }
+
+            if (usersDTO.getLastname() != null) {
+                existingUser.setLastname(usersDTO.getLastname());
+            }
+
+            if (usersDTO.getEmail() != null) {
+                existingUser.setEmail(usersDTO.getEmail());
+            }
+
+            if (usersDTO.getPassword() != null) {
+                existingUser.setPassword(usersDTO.getPassword());
+            }
+
+//            if (usersDTO.getRole() = null) {
+//                existingUser.setRole(usersDTO.getRole());
+//            }
+
+            if (usersDTO.getDescription() != null) {
+                existingUser.setDescription(usersDTO.getDescription());
+            }
+
+            if (usersDTO.getElderyName() != null) {
+                existingUser.setElderyName(usersDTO.getElderyName());
+            }
+
+            if (usersDTO.getHealthDetails() != null) {
+                existingUser.setHealthDetails(usersDTO.getHealthDetails());
+            }
+
+            if (usersDTO.getElderyBirthDate() != null) {
+                existingUser.setElderyBirthDate(usersDTO.getElderyBirthDate());
+            }
+
+            if (usersDTO.getCity() != null) {
+//                cityRepository.findById(usersDTO.getCity()).ifPresent(existingUser::setCity);
+                existingUser.setCity(usersDTO.getCity());
+            }
+
+            update(id, existingUser);
+        }
+    }
+
+    public UsersDTO getUserById(Long id) {
+        return usersRepository.findById(id)
+                .map(users -> mapToDTO(users, new UsersDTO()))
+                .orElseThrow(NotFoundException::new);
+    }
 }

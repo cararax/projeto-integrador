@@ -8,6 +8,7 @@ import com.carara.nursenow.service.RegistrationService;
 import com.carara.nursenow.util.CustomCollectors;
 import com.carara.nursenow.util.WebUtils;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+@Slf4j
 @Controller
 public class RegistrationController {
     //todo: podia ser tudo com userDto na verdade...
@@ -30,7 +31,7 @@ public class RegistrationController {
         this.cityRepository = cityRepository;
     }
 
-//    @ModelAttribute
+    //    @ModelAttribute
 //    public void prepareContext(final Model model) {
 //        model.addAttribute("roleValues", ROLE.values());
 //    }
@@ -58,7 +59,7 @@ public class RegistrationController {
     }
     @PostMapping("/register/caregiver")
     public String registerCaregiver(@ModelAttribute @Valid final RegistrationRequest registrationRequest,
-                           final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+                                    final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (!bindingResult.hasFieldErrors("email") && registrationService.emailExists(registrationRequest)) {
             bindingResult.rejectValue("email", "registration.register.taken");
         }
@@ -78,12 +79,13 @@ public class RegistrationController {
     }
     @PostMapping("/register/carerecivier")
     public String registercarerecivier(@ModelAttribute @Valid final RegistrationRequest registrationRequest,
-                                final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+                                       final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (!bindingResult.hasFieldErrors("email") && registrationService.emailExists(registrationRequest)) {
             bindingResult.rejectValue("email", "registration.register.taken");
         }
         registrationRequest.setRole(ROLE.CARERECIVIER);
         if (bindingResult.hasErrors()) {
+            log.info("{}", bindingResult.getAllErrors());
             return "registration/carerecivier";
         }
         registrationService.register(registrationRequest);
@@ -112,3 +114,4 @@ public class RegistrationController {
 //    }
 
 }
+

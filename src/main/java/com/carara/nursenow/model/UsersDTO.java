@@ -25,11 +25,11 @@ public class UsersDTO {
     @Size(max = 255)
     private String email;
 
-    @NotNull
-    @Size(max = 255)
+//    @NotNull
+//    @Size(max = 255)
     private String password;
 
-    @NotNull
+//    @NotNull
     private ROLE role;
 
     private String description;

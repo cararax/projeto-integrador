@@ -16,10 +16,10 @@
                     <div th:replace="~{fragments/forms::inputRow(object='registrationRequest', field='email', type='email')}" />
                     <div th:replace="~{fragments/forms::inputRow(object='registrationRequest', field='password', type='password')}" />
                     <div th:replace="~{fragments/forms::inputRow(object='registrationRequest', field='description', type='textarea')}" />
-                </form>
-            </div>
-            <div class="col-md-6">
-                <form th:action="${T(com.carara.nursenow.util.WebUtils).getRequest().requestURI}" method="post">
+<!--                </form>-->
+<!--            </div>-->
+<!--            <div class="col-md-6">-->
+<!--                <form th:action="${T(com.carara.nursenow.util.WebUtils).getRequest().requestURI}" method="post">-->
                     <div th:replace="~{fragments/forms::inputRow(object='registrationRequest', field='elderyName')}" />
                     <div th:replace="~{fragments/forms::inputRow(object='registrationRequest', field='healthDetails', type='textarea')}" />
                     <div th:replace="~{fragments/forms::inputRow(object='registrationRequest', field='elderyBirthDate', inputClass='js-datepicker')}" />
