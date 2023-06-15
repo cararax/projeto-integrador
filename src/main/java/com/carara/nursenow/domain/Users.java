@@ -26,8 +26,8 @@ public class Users {
     @Column(nullable = false)
     private String lastname;
 
-//    @Column(nullable = false, unique = true)
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = false)
     private String email;
 
     @Column(nullable = false)

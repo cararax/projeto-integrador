@@ -15,7 +15,6 @@ import com.carara.nursenow.util.NotFoundException;
 import com.carara.nursenow.util.WebUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -83,7 +82,7 @@ public class UsersService {
 //        mapToEntity(usersDTO, users);
 //        usersRepository.save(users);
 
-        UsersDTO existingUser = getUserById(id);
+        Users existingUser = getUserById(id);
 
         if (existingUser != null) {
             if (usersDTO.getFirstname() != null) {
@@ -99,10 +98,10 @@ public class UsersService {
             }
 
             if (usersDTO.getPassword() != null) {
-                existingUser.setPassword(usersDTO.getPassword());
+                existingUser.setPassword(passwordEncoder.encode(usersDTO.getPassword()));
             }
 
-//            if (usersDTO.getRole() = null) {
+//            if (usersDTO.getRole() != null) {
 //                existingUser.setRole(usersDTO.getRole());
 //            }
 
@@ -123,12 +122,12 @@ public class UsersService {
             }
 
             if (usersDTO.getCity() != null) {
-//                cityRepository.findById(usersDTO.getCity()).ifPresent(existingUser::setCity);
-                existingUser.setCity(usersDTO.getCity());
+                cityRepository.findById(usersDTO.getCity()).ifPresent(existingUser::setCity);
+//                existingUser.setCity(usersDTO.getCity());
             }
-            Users user = new Users();
-            mapToEntity(usersDTO, user);
-            usersRepository.save(user);
+//            Users user = new Users();
+//            mapToEntity(existingUser, user);
+            usersRepository.save(existingUser);
 
         }
     }
@@ -142,7 +141,8 @@ public class UsersService {
         usersDTO.setFirstname(users.getFirstname());
         usersDTO.setLastname(users.getLastname());
         usersDTO.setEmail(users.getEmail());
-        usersDTO.setPassword(passwordEncoder.encode(users.getPassword()));
+//        usersDTO.setPassword(passwordEncoder.encode(users.getPassword()));
+        usersDTO.setPassword(users.getPassword());
         usersDTO.setRole(users.getRole());
         usersDTO.setDescription(users.getDescription());
         usersDTO.setElderyName(users.getElderyName());
@@ -193,59 +193,59 @@ public class UsersService {
         }
         return null;
     }
-
-    public void updateUser(Long id, UsersDTO usersDTO) {
-        UsersDTO existingUser = getUserById(id);
-
-        if (existingUser != null) {
-            if (usersDTO.getFirstname() != null) {
-                existingUser.setFirstname(usersDTO.getFirstname());
-            }
-
-            if (usersDTO.getLastname() != null) {
-                existingUser.setLastname(usersDTO.getLastname());
-            }
-
-            if (usersDTO.getEmail() != null) {
-                existingUser.setEmail(usersDTO.getEmail());
-            }
-
-            if (usersDTO.getPassword() != null) {
-                existingUser.setPassword(usersDTO.getPassword());
-            }
-
-//            if (usersDTO.getRole() = null) {
-//                existingUser.setRole(usersDTO.getRole());
+//
+//    public void updateUser(Long id, UsersDTO usersDTO) {
+//        Users existingUser = getUserById(id);
+//
+//        if (existingUser != null) {
+//            if (usersDTO.getFirstname() != null) {
+//                existingUser.setFirstname(usersDTO.getFirstname());
 //            }
+//
+//            if (usersDTO.getLastname() != null) {
+//                existingUser.setLastname(usersDTO.getLastname());
+//            }
+//
+//            if (usersDTO.getEmail() != null) {
+//                existingUser.setEmail(usersDTO.getEmail());
+//            }
+//
+//            if (usersDTO.getPassword() != null) {
+//                existingUser.setPassword(usersDTO.getPassword());
+//            }
+//
+////            if (usersDTO.getRole() = null) {
+////                existingUser.setRole(usersDTO.getRole());
+////            }
+//
+//            if (usersDTO.getDescription() != null) {
+//                existingUser.setDescription(usersDTO.getDescription());
+//            }
+//
+//            if (usersDTO.getElderyName() != null) {
+//                existingUser.setElderyName(usersDTO.getElderyName());
+//            }
+//
+//            if (usersDTO.getHealthDetails() != null) {
+//                existingUser.setHealthDetails(usersDTO.getHealthDetails());
+//            }
+//
+//            if (usersDTO.getElderyBirthDate() != null) {
+//                existingUser.setElderyBirthDate(usersDTO.getElderyBirthDate());
+//            }
+//
+//            if (usersDTO.getCity() != null) {
+////                cityRepository.findById(usersDTO.getCity()).ifPresent(existingUser::setCity);
+//                existingUser.setCity(usersDTO.getCity());
+//            }
+//
+//            update(id, existingUser);
+//        }
+//    }
 
-            if (usersDTO.getDescription() != null) {
-                existingUser.setDescription(usersDTO.getDescription());
-            }
-
-            if (usersDTO.getElderyName() != null) {
-                existingUser.setElderyName(usersDTO.getElderyName());
-            }
-
-            if (usersDTO.getHealthDetails() != null) {
-                existingUser.setHealthDetails(usersDTO.getHealthDetails());
-            }
-
-            if (usersDTO.getElderyBirthDate() != null) {
-                existingUser.setElderyBirthDate(usersDTO.getElderyBirthDate());
-            }
-
-            if (usersDTO.getCity() != null) {
-//                cityRepository.findById(usersDTO.getCity()).ifPresent(existingUser::setCity);
-                existingUser.setCity(usersDTO.getCity());
-            }
-
-            update(id, existingUser);
-        }
-    }
-
-    public UsersDTO getUserById(Long id) {
+    public Users getUserById(Long id) {
         return usersRepository.findById(id)
-                .map(users -> mapToDTO(users, new UsersDTO()))
+//                .map(users -> mapToDTO(users, new UsersDTO()))
                 .orElseThrow(NotFoundException::new);
     }
 }

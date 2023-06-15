@@ -116,16 +116,19 @@ public class UsersController {
                        @ModelAttribute("users") @Valid final UsersDTO usersDTO,
                        final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         final UsersDTO currentUsersDTO = usersService.get(id);
-        if (!bindingResult.hasFieldErrors("email") &&
-                !usersDTO.getEmail().equalsIgnoreCase(currentUsersDTO.getEmail()) &&
-                usersService.emailExists(usersDTO.getEmail())) {
+
+        if(usersService.emailExists(usersDTO.getEmail()) && !usersDTO.getEmail().equalsIgnoreCase(currentUsersDTO.getEmail())){
+                bindingResult.rejectValue("email", "Exists.users.email");
+        }
+
+        if (bindingResult.hasFieldErrors("email")) {
             bindingResult.rejectValue("email", "Exists.users.email");
         }
         if (bindingResult.hasErrors()) {
             log.info("{}", bindingResult.getAllErrors());
             return "users/edit";
         }
-        usersService.updateUser(id, usersDTO);
+        usersService.update(id, usersDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("users.update.success"));
         return "redirect:/userss/profile";
     }

@@ -9,6 +9,8 @@ import com.carara.nursenow.repos.UsersRepository;
 import com.carara.nursenow.util.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 
@@ -50,6 +52,12 @@ public class ExperienceService {
                 .orElseThrow(NotFoundException::new);
     }
 
+    public Long create(final ExperienceDTO experienceDTO, final String username) {
+        final Experience experience = new Experience();
+        experienceDTO.setCaregiver(usersRepository.findByEmailIgnoreCase(username).getId());
+        mapToEntity(experienceDTO, experience);
+        return experienceRepository.save(experience).getId();
+    }
     public Long create(final ExperienceDTO experienceDTO) {
         final Experience experience = new Experience();
         mapToEntity(experienceDTO, experience);
@@ -59,9 +67,18 @@ public class ExperienceService {
     public void update(final Long id, final ExperienceDTO experienceDTO) {
         final Experience experience = experienceRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
+//        Users currentUser = usersRepository.findByEmailIgnoreCase(username);
+//        experience.setCaregiver(currentUser);
+        experienceDTO.setCaregiver(experience.getCaregiver().getId());
         mapToEntity(experienceDTO, experience);
         experienceRepository.save(experience);
     }
+//    public void update(final Long id, final ExperienceDTO experienceDTO) {
+//        final Experience experience = experienceRepository.findById(id)
+//                .orElseThrow(NotFoundException::new);
+//        mapToEntity(experienceDTO, experience);
+//        experienceRepository.save(experience);
+//    }
 
     public void delete(final Long id) {
         experienceRepository.deleteById(id);

@@ -37,7 +37,7 @@ public class Service {
     @Column(nullable = false)
     private Double price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "caregiver_id")
     private Users caregiver;
 

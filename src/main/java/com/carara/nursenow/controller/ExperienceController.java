@@ -14,6 +14,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -69,9 +71,12 @@ public class ExperienceController {
         if (bindingResult.hasErrors()) {
             return "experience/add";
         }
-        experienceService.create(experienceDTO);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        experienceService.create(experienceDTO, userDetails.getUsername());
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("experience.create.success"));
-        return "redirect:/experiences";
+//        return "redirect:/experiences";
+        return "redirect:/userss/profile";
     }
 
     @GetMapping("/edit/{id}")

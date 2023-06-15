@@ -54,6 +54,12 @@ public class ServiceService {
                 .orElseThrow(NotFoundException::new);
     }
 
+    public Long create(final ServiceDTO serviceDTO, String email) {
+        final com.carara.nursenow.domain.Service service = new com.carara.nursenow.domain.Service();
+        serviceDTO.setCaregiver(usersRepository.findByEmailIgnoreCase(email).getId());
+        mapToEntity(serviceDTO, service);
+        return serviceRepository.save(service).getId();
+    }
     public Long create(final ServiceDTO serviceDTO) {
         final com.carara.nursenow.domain.Service service = new com.carara.nursenow.domain.Service();
         mapToEntity(serviceDTO, service);
@@ -63,6 +69,7 @@ public class ServiceService {
     public void update(final Long id, final ServiceDTO serviceDTO) {
         final com.carara.nursenow.domain.Service service = serviceRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
+        serviceDTO.setCaregiver(service.getCaregiver().getId());
         mapToEntity(serviceDTO, service);
         serviceRepository.save(service);
     }
