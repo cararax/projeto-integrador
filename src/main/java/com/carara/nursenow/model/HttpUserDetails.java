@@ -18,4 +18,7 @@ public class HttpUserDetails extends User {
         this.id = id;
     }
 
+    public Long getId() {
+        return id;
+    }
 }

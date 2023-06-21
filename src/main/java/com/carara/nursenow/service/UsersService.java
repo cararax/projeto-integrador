@@ -69,6 +69,9 @@ public class UsersService {
     public Users getByEmailIgnoreCase(String username) {
         return usersRepository.findByEmailIgnoreCase(username);
     }
+    public Users findById(Long id) {
+        return usersRepository.findById(id).orElseThrow(NotFoundException::new);
+    }
 
     public Long create(final UsersDTO usersDTO) {
         final Users users = new Users();

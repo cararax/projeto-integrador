@@ -2,6 +2,7 @@ package com.carara.nursenow.controller;
 
 import com.carara.nursenow.domain.City;
 import com.carara.nursenow.domain.Users;
+import com.carara.nursenow.model.HttpUserDetails;
 import com.carara.nursenow.model.ROLE;
 import com.carara.nursenow.model.SimplePage;
 import com.carara.nursenow.model.UsersDTO;
@@ -77,8 +78,9 @@ public class UsersController {
 
     @GetMapping("/profile")
     public String profile(Model model) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Users user = usersService.getByEmailIgnoreCase(userDetails.getUsername());
+        HttpUserDetails userDetails = (HttpUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        Users user = usersService.getByEmailIgnoreCase(userDetails.getUsername());
+        Users user = usersService.findById(userDetails.getId());
 
         model.addAttribute("users", user);
 
