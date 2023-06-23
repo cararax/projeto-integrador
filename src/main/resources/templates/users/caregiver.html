@@ -12,18 +12,19 @@
             <span th:text="${users.firstname}"></span>
             <span th:text="${users.lastname}"></span>
         </h1>
-        <div>
-            <a th:href="@{/userss}" th:text="#{users.edit.back}" class="btn btn-secondary"/>
-        </div>
+        <!--        <div>-->
+        <!--            <a th:href="@{/userss}" th:text="#{users.edit.back}" class="btn btn-secondary"/>-->
+        <!--        </div>-->
     </div>
 
     <main class="my-5">
         <div class="container">
-            <h1>Ver Perfil</h1>
-            <a th:href="@{/userss/edit/{id}(id=${users.id})}" th:text="#{users.list.edit}" class="btn btn-sm btn-primary" />
+            <h1 th:text="#{users.info.headline}"/>
+            <a th:href="@{/userss/edit/{id}(id=${users.id})}" th:text="#{users.list.edit}"
+               class="btn btn-sm btn-primary"/>
 
             <div class="row">
-                <div class="col-md-12 text-center">
+                <div class="col-md-12">
                     <div class="d-flex">
                         <div class="col-md-6">
                             <ul>
@@ -36,7 +37,7 @@
                                 <li><strong th:text="#{users.description.label}"/>: <span
                                         th:text="${users.description}"></span>
                                 </li>
-                                <li><strong th:text="#{users.city.label}"/><span th:text="${users.city.name}"></span>
+                                <li><strong th:text="#{users.city.label}"/>: <span th:text="${users.city.name}"></span>
                                 </li>
                             </ul>
                         </div>
@@ -95,6 +96,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </main>
 
 
