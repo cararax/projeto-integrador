@@ -10,54 +10,61 @@
         <h1 class="flex-grow-1 text-center">Buscar Enfermeiros</h1>
     </div>
     <div class="row my-3">
-        <form th:action="@{/nurse/search}" method="get">
+        <form th:action="@{/caregivers}" method="get">
             <div class="row">
                 <div class="col-md-4">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Pesquisar por nome" name="name">
+                        <button type="submit" class="btn btn-primary">Buscar</button>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <select class="form-select" name="city">
                         <option value="">Selecione a cidade</option>
-                        <!-- Incluir opções de cidades -->
+                        <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}" />
                     </select>
                 </div>
                 <div class="col-md-4">
                     <select class="form-select" name="service">
                         <option value="">Selecione o serviço</option>
-                        <!-- Incluir opções de serviços -->
+                        <option th:each="service : ${services}" th:value="${service.id}" th:text="${service.name}" />
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Buscar</button>
-
             </div>
         </form>
     </div>
 
     <div class="row">
-        <div class="col-md-6" th:each="nurse : ${nurses}">
+        <div class="col-md-6" th:each="user : ${caregivers}">
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${nurse.name}"></h5>
-                    <p class="card-text" th:text="${nurse.city}"></p>
-                    <a th:href="@{/nurse/profile/{id}(id=${nurse.id})}" class="btn btn-primary">Ver Perfil</a>
+                    <h5 class="card-title" th:text="${user.firstname + ' ' + user.lastname}"></h5>
+                    <p class="card-text" th:text="${user.city.name}"></p>
+                    <a th:href="@{/userss/profile/{id}(id=${user.id})}" class="btn btn-primary">Ver Perfil</a>
                 </div>
                 <div class="card-body">
                     <h6 class="card-subtitle mb-2 text-muted">Experiências</h6>
                     <ul>
-                        <li th:each="experience : ${nurse.experiences}" th:text="${experience}"></li>
+                        <li th:each="experience : ${user.experience}">
+                            <strong th:text="${experience.company}"></strong>: <span th:text="${experience.description}"></span>
+                        </li>
                     </ul>
                 </div>
                 <div class="card-body">
                     <h6 class="card-subtitle mb-2 text-muted">Serviços</h6>
                     <ul>
-                        <li th:each="service : ${nurse.services}" th:text="${service}"></li>
+                        <li th:each="service : ${user.service}">
+                            <strong th:text="${service.name}"></strong>
+                            <p><strong>Preço:</strong> <span th:text="${service.price}"></span></p>
+                            <p><strong>Duração:</strong> <span th:text="${service.duration}"></span></p>
+                            <p><strong>Descrição:</strong> <span th:text="${service.description}"></span></p>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 </body>
 </html>

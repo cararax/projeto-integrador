@@ -2,6 +2,7 @@ package com.carara.nursenow.service;
 
 import com.carara.nursenow.domain.Users;
 import com.carara.nursenow.model.RegistrationRequest;
+import com.carara.nursenow.repos.CityRepository;
 import com.carara.nursenow.repos.UsersRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,11 +14,12 @@ import org.springframework.stereotype.Service;
 public class RegistrationService {
 
     private final UsersRepository usersRepository;
+    private final CityRepository cityRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public RegistrationService(final UsersRepository usersRepository,
-            final PasswordEncoder passwordEncoder) {
+    public RegistrationService(UsersRepository usersRepository, CityRepository cityRepository, PasswordEncoder passwordEncoder) {
         this.usersRepository = usersRepository;
+        this.cityRepository = cityRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -34,6 +36,10 @@ public class RegistrationService {
         users.setLastname(registrationRequest.getLastname());
         users.setEmail(registrationRequest.getEmail());
         users.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+
+        cityRepository.findById(registrationRequest.getCity()).ifPresent(users::setCity);
+
+//        users.setCity(registrationRequest.getCity());
         users.setRole(registrationRequest.getRole());
         users.setDescription(registrationRequest.getDescription());
         users.setElderyName(registrationRequest.getElderyName());

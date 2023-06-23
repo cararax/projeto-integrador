@@ -1,6 +1,7 @@
 package com.carara.nursenow.controller;
 
 import com.carara.nursenow.domain.City;
+import com.carara.nursenow.domain.Service;
 import com.carara.nursenow.domain.Users;
 import com.carara.nursenow.model.HttpUserDetails;
 import com.carara.nursenow.model.ROLE;
@@ -31,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 
 @Slf4j
 @Controller
@@ -54,15 +57,27 @@ public class UsersController {
                 .collect(CustomCollectors.toSortedMap(City::getId, City::getName)));
     }
 
-    @GetMapping
-    public String list(@RequestParam(required = false) final String filter,
-                       @SortDefault(sort = "id") @PageableDefault(size = 20) final Pageable pageable,
-                       final Model model) {
-        final SimplePage<UsersDTO> userss = usersService.findAll(filter, pageable);
-        model.addAttribute("userss", userss);
-        model.addAttribute("filter", filter);
-        model.addAttribute("paginationModel", WebUtils.getPaginationModel(userss));
-        return "users/list";
+//    @GetMapping
+//    public String list(@RequestParam(required = false) final String filter,
+//                       @SortDefault(sort = "id") @PageableDefault(size = 20) final Pageable pageable,
+//                       final Model model) {
+//        final SimplePage<UsersDTO> userss = usersService.findAll(filter, pageable);
+//        model.addAttribute("userss", userss);
+//        model.addAttribute("filter", filter);
+//        model.addAttribute("paginationModel", WebUtils.getPaginationModel(userss));
+//        return "users/list";
+//    }
+
+    @GetMapping("/caregivers")
+    public String listCaregivers(Model model) {
+        List<City> allCities = usersService.getAllCities();
+        List<Service> allServices = usersService.getAllServices();
+        List<Users> allCaregivers = usersService.getAllCaregivers();
+
+        model.addAttribute("services", allServices);
+        model.addAttribute("cities", allCities);
+        model.addAttribute("caregivers", allCaregivers);
+        return "users/caregiverList";
     }
 
     @GetMapping("/add")
@@ -72,8 +87,14 @@ public class UsersController {
 
     @GetMapping("/profile/{id}")
     public String profile(@PathVariable("id") final Long id, final Model model) {
-        model.addAttribute("users", usersService.get(id));
-        return "users/profile";
+        Users usersDTO = usersService.findById(id);
+        model.addAttribute("users", usersDTO);
+        if (usersDTO.getRole() == ROLE.CAREGIVER) {
+            return "users/caregiverView";
+        } else {
+            return "users/carerecivier";
+        }
+//        return "users/profile";
     }
 
     @GetMapping("/profile")

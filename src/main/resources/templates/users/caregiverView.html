@@ -51,16 +51,16 @@
                     <div class="info-item">
                         <strong th:text="#{users.city.label}"/>: <span th:text="${users.city.name}"></span>
                     </div>
-                    <a th:href="@{/userss/edit/{id}(id=${users.id})}" th:text="#{users.list.edit}"
-                       class="btn btn-sm btn-primary edit-button"></a>
+<!--                    <a th:href="@{/userss/edit/{id}(id=${users.id})}" th:text="#{users.list.edit}"-->
+<!--                       class="btn btn-sm btn-primary edit-button"></a>-->
                 </div>
             </div>
             <br><br>
             <div class="row">
                 <div class="col-md-6">
                     <h2 th:text="#{experience.list.headline}"></h2>
-                    <a th:href="@{/experiences/add}" th:text="#{experience.list.createNew}"
-                       class="btn btn-primary mb-2"></a>
+<!--                    <a th:href="@{/experiences/add}" th:text="#{experience.list.createNew}"-->
+<!--                       class="btn btn-primary mb-2"></a>-->
                     <ul>
                         <li th:each="experience : ${users.experience}">
                             <strong th:text="${experience.company}"></strong>
@@ -76,20 +76,20 @@
                                 <strong th:text="#{experience.endDate.label}"/>: <span
                                     th:text="${experience.endDate}"></span>
                             </div>
-                            <a th:href="@{/experiences/edit/{id}(id=${experience.id})}"
-                               class="btn btn-primary edit-button" th:text="#{botao.editar}"></a>
-                            <form th:action="@{/experiences/delete/{id}(id=${experience.id})}"
-                                  th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
-                                <button th:text="#{experience.list.delete}" type="submit"
-                                        class="btn btn-sm btn-danger delete-button"></button>
-                            </form>
+<!--                            <a th:href="@{/experiences/edit/{id}(id=${experience.id})}"-->
+<!--                               class="btn btn-primary edit-button" th:text="#{botao.editar}"></a>-->
+<!--                            <form th:action="@{/experiences/delete/{id}(id=${experience.id})}"-->
+<!--                                  th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">-->
+<!--                                <button th:text="#{experience.list.delete}" type="submit"-->
+<!--                                        class="btn btn-sm btn-danger delete-button"></button>-->
+<!--                            </form>-->
                         </li>
                     </ul>
                 </div>
                 <div class="col-md-6">
                     <h2 th:text="#{service.list.headline}"></h2>
-                    <a th:href="@{/services/add}" th:text="#{service.list.createNew}"
-                       class="btn btn-primary mb-2"></a>
+<!--                    <a th:href="@{/services/add}" th:text="#{service.list.createNew}"-->
+<!--                       class="btn btn-primary mb-2"></a>-->
                     <ul>
                         <li th:each="service : ${users.service}">
                             <strong th:text="${service.name}"></strong>
@@ -105,20 +105,18 @@
                                 <strong th:text="#{service.price.label}"/>: <span
                                     th:text="${service.price}"></span>
                             </div>
-                            <a th:href="@{/services/edit/{id}(id=${service.id})}" class="btn btn-primary edit-button"
-                               th:text="#{botao.editar}"></a>
-                            <form th:action="@{/services/delete/{id}(id=${service.id})}"
-                                  th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
-                                <button th:text="#{service.list.delete}" type="submit"
-                                        class="btn btn-sm btn-danger delete-button"></button>
-                            </form>
+                            <a  class="btn btn-primary edit-button"
+                               th:text="Contratar"></a>
+<!--                            <form th:action="@{/services/delete/{id}(id=${service.id})}"-->
+<!--                                  th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">-->
+<!--                                <button th:text="#{service.list.delete}" type="submit"-->
+<!--                                        class="btn btn-sm btn-danger delete-button"></button>-->
+<!--                            </form>-->
                         </li>
                     </ul>
                 </div>
             </div>
             </div>
-
-        </div>
     </main>
 </div>
 </body>

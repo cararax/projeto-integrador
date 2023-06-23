@@ -27,8 +27,8 @@
                             <li class="navbar-item">
                                 <a th:href="@{/}" th:text="#{navigation.home}" class="nav-link" />
                             </li>
-                            <li>
-                                <a th:href="@{/userss/profile}" th:text="#{navigation.profile}" class="nav-link" />
+                            <li sec:authorize="isAuthenticated()">
+                                <a th:href="@{/userss/profile}" th:text="#{navigation.profile}" class="nav-link"></a>
                             </li>
 <!--                            <li>-->
 <!--                                <a th:href="@{/}" th:text="${#authentication.principal.username}" class="nav-link"></a>-->

@@ -4,6 +4,7 @@ import com.carara.nursenow.domain.Booking;
 import com.carara.nursenow.domain.City;
 import com.carara.nursenow.domain.Experience;
 import com.carara.nursenow.domain.Users;
+import com.carara.nursenow.model.ROLE;
 import com.carara.nursenow.model.SimplePage;
 import com.carara.nursenow.model.UsersDTO;
 import com.carara.nursenow.repos.BookingRepository;
@@ -17,6 +18,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -69,6 +72,7 @@ public class UsersService {
     public Users getByEmailIgnoreCase(String username) {
         return usersRepository.findByEmailIgnoreCase(username);
     }
+
     public Users findById(Long id) {
         return usersRepository.findById(id).orElseThrow(NotFoundException::new);
     }
@@ -250,5 +254,17 @@ public class UsersService {
         return usersRepository.findById(id)
 //                .map(users -> mapToDTO(users, new UsersDTO()))
                 .orElseThrow(NotFoundException::new);
+    }
+
+    public List<City> getAllCities() {
+        return cityRepository.findAll();
+    }
+
+    public List<com.carara.nursenow.domain.Service> getAllServices() {
+        return serviceRepository.findAll();
+    }
+
+    public List<Users> getAllCaregivers() {
+        return usersRepository.findByRole(ROLE.valueOf("CAREGIVER"));
     }
 }
