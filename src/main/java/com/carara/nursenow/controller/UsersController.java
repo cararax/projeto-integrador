@@ -68,15 +68,40 @@ public class UsersController {
 //        return "users/list";
 //    }
 
+//    @GetMapping("/caregivers")
+//    public String listCaregivers(Model model) {
+//        List<City> allCities = usersService.getAllCities();
+//        List<Service> allServices = usersService.getAllServices();
+//        List<Users> allCaregivers = usersService.getAllCaregivers();
+//
+//        model.addAttribute("services", allServices);
+//        model.addAttribute("cities", allCities);
+//        model.addAttribute("caregivers", allCaregivers);
+//        return "users/caregiverList";
+//    }
+
     @GetMapping("/caregivers")
-    public String listCaregivers(Model model) {
+    public String getCaregiverDetails(@RequestParam(value = "name", required = false) String name,
+                                      @RequestParam(value = "city", required = false) Long city,
+                                      @RequestParam(value = "service", required = false) Long service,
+                                      Model model) {
+        // Faça o processamento necessário com os parâmetros recebidos
+        log.info("Detalhes do cuidador: Nome - " + name + ", Cidade - " + city + ", Serviço - " + service);
         List<City> allCities = usersService.getAllCities();
-        List<Service> allServices = usersService.getAllServices();
+        List<Service> allServices = usersService.getAllServices().stream().distinct().toList();
         List<Users> allCaregivers = usersService.getAllCaregivers();
+
+
+        List<Users> filteredCaregivers = usersService.
+                findByProperties(name, city, service);
+
+
+
+
 
         model.addAttribute("services", allServices);
         model.addAttribute("cities", allCities);
-        model.addAttribute("caregivers", allCaregivers);
+        model.addAttribute("caregivers", filteredCaregivers);
         return "users/caregiverList";
     }
 
@@ -140,8 +165,8 @@ public class UsersController {
                        final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         final UsersDTO currentUsersDTO = usersService.get(id);
 
-        if(usersService.emailExists(usersDTO.getEmail()) && !usersDTO.getEmail().equalsIgnoreCase(currentUsersDTO.getEmail())){
-                bindingResult.rejectValue("email", "Exists.users.email");
+        if (usersService.emailExists(usersDTO.getEmail()) && !usersDTO.getEmail().equalsIgnoreCase(currentUsersDTO.getEmail())) {
+            bindingResult.rejectValue("email", "Exists.users.email");
         }
 
         if (bindingResult.hasFieldErrors("email")) {

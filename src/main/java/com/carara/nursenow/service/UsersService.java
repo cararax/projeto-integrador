@@ -14,8 +14,10 @@ import com.carara.nursenow.repos.ServiceRepository;
 import com.carara.nursenow.repos.UsersRepository;
 import com.carara.nursenow.util.NotFoundException;
 import com.carara.nursenow.util.WebUtils;
+import jakarta.persistence.criteria.Join;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -263,8 +265,126 @@ public class UsersService {
     public List<com.carara.nursenow.domain.Service> getAllServices() {
         return serviceRepository.findAll();
     }
+//
+//    public List<com.carara.nursenow.domain.Service> findDistinctByName(String name) {
+//        return serviceRepository.findDistinctByName(name);
+//    }
 
     public List<Users> getAllCaregivers() {
         return usersRepository.findByRole(ROLE.valueOf("CAREGIVER"));
     }
+
+//    public List<UsersDTO> findByFirstnameLikeAndLastnameLikeAndCityNameAndServiceName(String fullName, String city, String service) {
+//
+//        String[] firstAndLastName = getFirstAndLastName(fullName);
+//
+//        return usersRepository.findByFirstnameLikeAndLastnameLikeAndCity_NameAndService_Name(firstAndLastName[0], firstAndLastName[1], city, service).stream()
+//                .map(users -> mapToDTO(users, new UsersDTO()))
+//                .toList();
+//    }
+
+    private static String[] getFirstAndLastName(String fullName) {
+
+// Separar o nome completo em firstName e lastName
+        String[] nameParts = fullName.split(" ", 2);
+        String[] name = new String[2];
+        name[0] = nameParts[0];
+        name[1] = nameParts.length > 1 ? nameParts[1] : null;
+        return name;
+
+    }
+
+    public List<Users> findByProperties(String fullname, Long cityId, Long serviceId) {
+        Specification<Users> spec = Specification.where((root, query, cb) -> cb.equal(root.get("role"), ROLE.CAREGIVER));
+
+        String[] fullName = new String[2];
+        if (fullname != null && !fullname.isEmpty()) {
+            fullName = getFirstAndLastName(fullname);
+        }
+        String firstName = fullName[0];
+        String lastName = fullName[1];
+
+        if (firstName != null) {
+            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("firstname")), "%" + firstName.toLowerCase() + "%"));
+        }
+
+        if (lastName != null) {
+            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("lastName")), "%" + lastName.toLowerCase() + "%"));
+        }
+
+        if (cityId != null) {
+            spec = spec.and((root, query, cb) -> {
+                Join<Users, City> join = root.join("city");
+                return cb.equal(join.get("id"), cityId);
+            });
+        }
+
+        if (serviceId != null) {
+            spec = spec.and((root, query, cb) -> {
+                Join<Users, Service> join = root.join("service");
+                return cb.equal(join.get("id"), serviceId);
+            });
+        }
+
+        return usersRepository.findAll(spec);
+    }
+
+
+//    public List<Users> findByProperties(String name, String city, String service) {
+//        String[] fullName = new String[2];
+//        if(name!=null && !name.isEmpty()){
+//            fullName = getFirstAndLastName(name);
+//        }
+//        String firstName = fullName[0];
+//        String lastName = fullName[1];
+//
+//
+//        Specification<Users> spec = Specification.where(null);
+//
+//        spec = spec.and((root, query, cb) -> cb.equal(root.get("role"), ROLE.CAREGIVER));
+//        if (firstName != null) {
+//            spec = spec.and((root, query, cb) -> cb.equal(root.get("firstname"), firstName));
+//        }
+//
+//        if (lastName != null) {
+//            spec = spec.and((root, query, cb) -> cb.equal(root.get("lastname"), lastName));
+//        }
+//
+//        if (city != null) {
+//            spec = spec.and((root, query, cb) -> cb.equal(root.get("city.id"), city));
+//        }
+//
+//        if (service != null) {
+//            spec = spec.and((root, query, cb) -> cb.equal(root.get("service.id"), service));
+//        }
+//
+//        return  usersRepository.findAll(spec);
+//                .stream()
+//                .map(users -> mapToDTO(users, new UsersDTO()))
+//                .toList();
+//        model.addAttribute("caregivers", caregivers);
+
+//        QUsers caregiver = QUsers.users;  // QCaregiver é a Q-Class gerada pelo Querydsl
+//
+//        BooleanBuilder where = new BooleanBuilder();
+//
+//        if (name != null) {
+//            where.and(users.name.likeIgnoreCase(name));
+//        }
+//
+//        if (city != null) {
+//            where.and(users.city.eq(city));
+//        }
+//
+//        if (service != null) {
+//            where.and(users.service.eq(service));
+//        }
+
+//        List<Users> caregivers = (List<Users>) usersRepository.findAll(where);
+
+//        return usersRepository.findByProperties(fullName[0], fullName[1], city, service)
+//                .stream()
+//                .map(users -> mapToDTO(users, new UsersDTO()))
+//                .toList();
+
 }
