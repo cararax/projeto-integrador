@@ -28,10 +28,12 @@
                     <li class="navbar-item">
                         <a th:href="@{/}" th:text="#{navigation.home}" class="nav-link"/>
                     </li>
+                    <li class="navbar-item">
+                        <a th:href="@{/userss/caregivers}" th:text="#{navigation.caregivers}" class="nav-link"/>
+                    </li>
                     <li sec:authorize="isAuthenticated()">
                         <a th:href="@{/userss/profile}" th:text="#{navigation.profile}" class="nav-link"></a>
                     </li>
-                    a
 <!--                    <li>-->
 <!--                        <a th:href="@{/}" th:text="${#authentication.principal.username}" class="nav-link"></a>-->
 <!--                    </li>-->

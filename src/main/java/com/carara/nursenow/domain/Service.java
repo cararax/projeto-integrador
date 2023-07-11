@@ -1,6 +1,7 @@
 package com.carara.nursenow.domain;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Service {
 
     @Id
@@ -35,5 +37,4 @@ public class Service {
 
     @OneToMany(mappedBy = "services")
     private Set<Booking> servicesBookings;
-
 }

@@ -197,8 +197,8 @@ public class UsersService {
         return cityRepository.findAll();
     }
 
-    public List<com.carara.nursenow.domain.Service> getAllServices() {
-        return serviceRepository.findAll();
+    public List<com.carara.nursenow.domain.Service> getAllServicesDistinct() {
+        return serviceRepository.findDistinctBy();
     }
 
     private static String[] getFirstAndLastName(String fullName) {

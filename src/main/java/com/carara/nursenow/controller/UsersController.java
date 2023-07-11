@@ -21,7 +21,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -51,9 +53,20 @@ public class UsersController {
                                       @RequestParam(value = "city", required = false) Long city,
                                       @RequestParam(value = "service", required = false) Long service,
                                       Model model) {
-        List<City> allCities = usersService.getAllCities();
-        List<Service> allServices = usersService.getAllServices().stream().distinct().toList();
-        List<Users> filteredCaregivers = usersService.findByProperties(name, city, service);
+        List<City> allCities = usersService.getAllCities()
+                .stream()
+                .sorted(Comparator.comparing(City::getName))
+                .toList();
+        //TODO: distinct
+        List<Service> allServices = usersService.getAllServicesDistinct()
+                .stream()
+                .sorted(Comparator.comparing(Service::getName))
+                .toList();
+
+        List<Users> filteredCaregivers = usersService.findByProperties(name, city, service)
+                .stream()
+                .sorted(Comparator.comparing(Users::getFirstname))
+                .toList();
 
         model.addAttribute("services", allServices);
         model.addAttribute("cities", allCities);
