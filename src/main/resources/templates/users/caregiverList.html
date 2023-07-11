@@ -21,13 +21,13 @@
                 <div class="col-md-4">
                     <select class="form-select" name="city">
                         <option value="">Selecione a cidade</option>
-                        <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}" />
+                        <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}"/>
                     </select>
                 </div>
                 <div class="col-md-4">
                     <select class="form-select" name="service">
                         <option value="">Selecione o serviço</option>
-                        <option th:each="service : ${services}" th:value="${service.id}" th:text="${service.name}" />
+                        <option th:each="service : ${services}" th:value="${service.id}" th:text="${service.name}"/>
                     </select>
                 </div>
             </div>
@@ -46,7 +46,8 @@
                     <h6 class="card-subtitle mb-2 text-muted">Experiências</h6>
                     <ul>
                         <li th:each="experience : ${user.experience}">
-                            <strong th:text="${experience.company}"></strong>: <span th:text="${experience.description}"></span>
+                            <strong th:text="${experience.company}"></strong>: <span
+                                th:text="${experience.description}"></span>
                         </li>
                     </ul>
                 </div>

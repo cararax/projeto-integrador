@@ -33,9 +33,12 @@
                         <!--            <li><strong>Cuidador de idosos:</strong> <span th:text="${users.elderyName}"></span></li>-->
                         <!--            <li><strong>Health Details:</strong> <span th:text="${users.healthDetails}"></span></li>-->
                         <!--            <li><strong>Eldery Birth Date:</strong> <span th:text="${users.elderyBirthDate}"></span></li>-->
-                        <li th:if="${users.role.name == 'CARERECIVIER'}"><strong>Eldery Name:</strong> <span th:text="${users.elderyName}"></span></li>
-                        <li th:if="${users.role.name == 'CARERECIVIER'}"><strong>Health Details:</strong> <span th:text="${users.healthDetails}"></span></li>
-                        <li th:if="${users.role.name == 'CARERECIVIER'}"><strong>Eldery Birth Date:</strong> <span th:text="${users.elderyBirthDate}"></span></li>
+                        <li th:if="${users.role.name == 'CARERECIVIER'}"><strong>Eldery Name:</strong> <span
+                                th:text="${users.elderyName}"></span></li>
+                        <li th:if="${users.role.name == 'CARERECIVIER'}"><strong>Health Details:</strong> <span
+                                th:text="${users.healthDetails}"></span></li>
+                        <li th:if="${users.role.name == 'CARERECIVIER'}"><strong>Eldery Birth Date:</strong> <span
+                                th:text="${users.elderyBirthDate}"></span></li>
                         <li><strong>City:</strong> <span th:text="${users.city}"></span></li>
 
                     </ul>

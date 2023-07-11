@@ -1,9 +1,14 @@
-DELETE FROM users;
+DELETE
+FROM users;
 
-DELETE FROM city;
+DELETE
+FROM city;
 
-DELETE FROM experience;
+DELETE
+FROM experience;
 
-DELETE FROM service;
+DELETE
+FROM service;
 
-DELETE FROM booking;
+DELETE
+FROM booking;

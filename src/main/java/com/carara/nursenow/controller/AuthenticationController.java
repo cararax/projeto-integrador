@@ -13,9 +13,8 @@ public class AuthenticationController {
 
     @GetMapping("/login")
     public String login(@RequestParam(required = false) final Boolean loginRequired,
-            @RequestParam(required = false) final Boolean loginError,
-            @RequestParam(required = false) final Boolean logoutSuccess, final Model model) {
-        // dummy for using the inputRow fragment
+                        @RequestParam(required = false) final Boolean loginError,
+                        @RequestParam(required = false) final Boolean logoutSuccess, final Model model) {
         model.addAttribute("authentication", new AuthenticationRequest());
         if (loginRequired == Boolean.TRUE) {
             model.addAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("authentication.login.required"));

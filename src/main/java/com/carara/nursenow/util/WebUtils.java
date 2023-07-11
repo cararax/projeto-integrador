@@ -2,7 +2,6 @@ package com.carara.nursenow.util;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
-import java.util.ArrayList;
 import lombok.SneakyThrows;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -11,6 +10,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.LocaleResolver;
 
+import java.util.ArrayList;
 
 @Component
 public class WebUtils {
@@ -27,7 +27,7 @@ public class WebUtils {
     }
 
     public static HttpServletRequest getRequest() {
-        return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     }
 
     public static String getMessage(final String code, final Object... args) {
@@ -58,7 +58,6 @@ public class WebUtils {
         step.setLabel(getMessage("pagination.previous"));
         step.setUrl(getStepUrl(page, page.previousOrFirstPageable().getPageNumber()));
         steps.add(step);
-        // find a range of up to 5 pages around the current active page
         final int startAt = Math.max(0, Math.min(page.getNumber() - 2, page.getTotalPages() - 5));
         final int endAt = Math.min(startAt + 5, page.getTotalPages());
         for (int i = startAt; i < endAt; i++) {

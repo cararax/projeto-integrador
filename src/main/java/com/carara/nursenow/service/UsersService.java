@@ -71,10 +71,6 @@ public class UsersService {
                 .orElseThrow(NotFoundException::new);
     }
 
-    public Users getByEmailIgnoreCase(String username) {
-        return usersRepository.findByEmailIgnoreCase(username);
-    }
-
     public Users findById(Long id) {
         return usersRepository.findById(id).orElseThrow(NotFoundException::new);
     }
@@ -86,10 +82,6 @@ public class UsersService {
     }
 
     public void update(final Long id, final UsersDTO usersDTO) {
-//        final Users users = usersRepository.findById(id)
-//                .orElseThrow(NotFoundException::new);
-//        mapToEntity(usersDTO, users);
-//        usersRepository.save(users);
 
         Users existingUser = getUserById(id);
 
@@ -110,10 +102,6 @@ public class UsersService {
                 existingUser.setPassword(passwordEncoder.encode(usersDTO.getPassword()));
             }
 
-//            if (usersDTO.getRole() != null) {
-//                existingUser.setRole(usersDTO.getRole());
-//            }
-
             if (usersDTO.getDescription() != null) {
                 existingUser.setDescription(usersDTO.getDescription());
             }
@@ -132,10 +120,8 @@ public class UsersService {
 
             if (usersDTO.getCity() != null) {
                 cityRepository.findById(usersDTO.getCity()).ifPresent(existingUser::setCity);
-//                existingUser.setCity(usersDTO.getCity());
             }
-//            Users user = new Users();
-//            mapToEntity(existingUser, user);
+
             usersRepository.save(existingUser);
 
         }
@@ -150,7 +136,6 @@ public class UsersService {
         usersDTO.setFirstname(users.getFirstname());
         usersDTO.setLastname(users.getLastname());
         usersDTO.setEmail(users.getEmail());
-//        usersDTO.setPassword(passwordEncoder.encode(users.getPassword()));
         usersDTO.setPassword(users.getPassword());
         usersDTO.setRole(users.getRole());
         usersDTO.setDescription(users.getDescription());
@@ -202,59 +187,9 @@ public class UsersService {
         }
         return null;
     }
-//
-//    public void updateUser(Long id, UsersDTO usersDTO) {
-//        Users existingUser = getUserById(id);
-//
-//        if (existingUser != null) {
-//            if (usersDTO.getFirstname() != null) {
-//                existingUser.setFirstname(usersDTO.getFirstname());
-//            }
-//
-//            if (usersDTO.getLastname() != null) {
-//                existingUser.setLastname(usersDTO.getLastname());
-//            }
-//
-//            if (usersDTO.getEmail() != null) {
-//                existingUser.setEmail(usersDTO.getEmail());
-//            }
-//
-//            if (usersDTO.getPassword() != null) {
-//                existingUser.setPassword(usersDTO.getPassword());
-//            }
-//
-////            if (usersDTO.getRole() = null) {
-////                existingUser.setRole(usersDTO.getRole());
-////            }
-//
-//            if (usersDTO.getDescription() != null) {
-//                existingUser.setDescription(usersDTO.getDescription());
-//            }
-//
-//            if (usersDTO.getElderyName() != null) {
-//                existingUser.setElderyName(usersDTO.getElderyName());
-//            }
-//
-//            if (usersDTO.getHealthDetails() != null) {
-//                existingUser.setHealthDetails(usersDTO.getHealthDetails());
-//            }
-//
-//            if (usersDTO.getElderyBirthDate() != null) {
-//                existingUser.setElderyBirthDate(usersDTO.getElderyBirthDate());
-//            }
-//
-//            if (usersDTO.getCity() != null) {
-////                cityRepository.findById(usersDTO.getCity()).ifPresent(existingUser::setCity);
-//                existingUser.setCity(usersDTO.getCity());
-//            }
-//
-//            update(id, existingUser);
-//        }
-//    }
 
     public Users getUserById(Long id) {
         return usersRepository.findById(id)
-//                .map(users -> mapToDTO(users, new UsersDTO()))
                 .orElseThrow(NotFoundException::new);
     }
 
@@ -265,27 +200,9 @@ public class UsersService {
     public List<com.carara.nursenow.domain.Service> getAllServices() {
         return serviceRepository.findAll();
     }
-//
-//    public List<com.carara.nursenow.domain.Service> findDistinctByName(String name) {
-//        return serviceRepository.findDistinctByName(name);
-//    }
-
-    public List<Users> getAllCaregivers() {
-        return usersRepository.findByRole(ROLE.valueOf("CAREGIVER"));
-    }
-
-//    public List<UsersDTO> findByFirstnameLikeAndLastnameLikeAndCityNameAndServiceName(String fullName, String city, String service) {
-//
-//        String[] firstAndLastName = getFirstAndLastName(fullName);
-//
-//        return usersRepository.findByFirstnameLikeAndLastnameLikeAndCity_NameAndService_Name(firstAndLastName[0], firstAndLastName[1], city, service).stream()
-//                .map(users -> mapToDTO(users, new UsersDTO()))
-//                .toList();
-//    }
 
     private static String[] getFirstAndLastName(String fullName) {
 
-// Separar o nome completo em firstName e lastName
         String[] nameParts = fullName.split(" ", 2);
         String[] name = new String[2];
         name[0] = nameParts[0];
@@ -328,63 +245,5 @@ public class UsersService {
 
         return usersRepository.findAll(spec);
     }
-
-
-//    public List<Users> findByProperties(String name, String city, String service) {
-//        String[] fullName = new String[2];
-//        if(name!=null && !name.isEmpty()){
-//            fullName = getFirstAndLastName(name);
-//        }
-//        String firstName = fullName[0];
-//        String lastName = fullName[1];
-//
-//
-//        Specification<Users> spec = Specification.where(null);
-//
-//        spec = spec.and((root, query, cb) -> cb.equal(root.get("role"), ROLE.CAREGIVER));
-//        if (firstName != null) {
-//            spec = spec.and((root, query, cb) -> cb.equal(root.get("firstname"), firstName));
-//        }
-//
-//        if (lastName != null) {
-//            spec = spec.and((root, query, cb) -> cb.equal(root.get("lastname"), lastName));
-//        }
-//
-//        if (city != null) {
-//            spec = spec.and((root, query, cb) -> cb.equal(root.get("city.id"), city));
-//        }
-//
-//        if (service != null) {
-//            spec = spec.and((root, query, cb) -> cb.equal(root.get("service.id"), service));
-//        }
-//
-//        return  usersRepository.findAll(spec);
-//                .stream()
-//                .map(users -> mapToDTO(users, new UsersDTO()))
-//                .toList();
-//        model.addAttribute("caregivers", caregivers);
-
-//        QUsers caregiver = QUsers.users;  // QCaregiver é a Q-Class gerada pelo Querydsl
-//
-//        BooleanBuilder where = new BooleanBuilder();
-//
-//        if (name != null) {
-//            where.and(users.name.likeIgnoreCase(name));
-//        }
-//
-//        if (city != null) {
-//            where.and(users.city.eq(city));
-//        }
-//
-//        if (service != null) {
-//            where.and(users.service.eq(service));
-//        }
-
-//        List<Users> caregivers = (List<Users>) usersRepository.findAll(where);
-
-//        return usersRepository.findByProperties(fullName[0], fullName[1], city, service)
-//                .stream()
-//                .map(users -> mapToDTO(users, new UsersDTO()))
-//                .toList();
 
 }

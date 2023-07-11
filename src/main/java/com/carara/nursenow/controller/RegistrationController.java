@@ -21,20 +21,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Slf4j
 @Controller
 public class RegistrationController {
-    //todo: podia ser tudo com userDto na verdade...
     private final RegistrationService registrationService;
     private final CityRepository cityRepository;
-
 
     public RegistrationController(final RegistrationService registrationService, CityRepository cityRepository) {
         this.registrationService = registrationService;
         this.cityRepository = cityRepository;
     }
 
-    //    @ModelAttribute
-//    public void prepareContext(final Model model) {
-//        model.addAttribute("roleValues", ROLE.values());
-//    }
     @ModelAttribute
     public void prepareContext(final Model model) {
         model.addAttribute("roleValues", ROLE.values());
@@ -48,15 +42,11 @@ public class RegistrationController {
         return "registration/choose-role";
     }
 
-//    @GetMapping("/register/chooseRole")
-//    public String chooseRole() {
-//        return "registration/chooseRole";
-//    }
-
     @GetMapping("/register/caregiver")
     public String registerCaregiver(@ModelAttribute final RegistrationRequest caregiverRequest) {
         return "registration/caregiver";
     }
+
     @PostMapping("/register/caregiver")
     public String registerCaregiver(@ModelAttribute @Valid final RegistrationRequest registrationRequest,
                                     final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
@@ -77,6 +67,7 @@ public class RegistrationController {
     public String registercarerecivier(@ModelAttribute final RegistrationRequest caregiverRequest) {
         return "registration/carerecivier";
     }
+
     @PostMapping("/register/carerecivier")
     public String registercarerecivier(@ModelAttribute @Valid final RegistrationRequest registrationRequest,
                                        final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
@@ -92,26 +83,6 @@ public class RegistrationController {
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("registration.register.success"));
         return "redirect:/login";
     }
-//
-//    @PostMapping("/register/nurse")
-//    public String registerNurse(@ModelAttribute @Valid final RegistrationRequest registrationRequest,
-//                                final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
-//        return processRegistration(registrationRequest, bindingResult, redirectAttributes, "registration/registerNurse");
-//    }
-
-//    @PostMapping("/register")
-//    public String register(@ModelAttribute @Valid final RegistrationRequest registrationRequest,
-//            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
-//        if (!bindingResult.hasFieldErrors("email") && registrationService.emailExists(registrationRequest)) {
-//            bindingResult.rejectValue("email", "registration.register.taken");
-//        }
-//        if (bindingResult.hasErrors()) {
-//            return "registration/register";
-//        }
-//        registrationService.register(registrationRequest);
-//        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("registration.register.success"));
-//        return "redirect:/login";
-//    }
 
 }
 

@@ -1,54 +1,55 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{layout}">
-    <head>
-        <title th:text="#{booking.list.headline}" />
-    </head>
-    <body>
-        <div layout:fragment="content">
-            <div class="d-flex flex-wrap mb-4">
-                <h1 th:text="#{booking.list.headline}" class="flex-grow-1" />
-                <div>
-                    <a th:href="@{/bookings/add}" th:text="#{booking.list.createNew}" class="btn btn-primary ms-2" />
-                </div>
-            </div>
-            <div th:replace="~{fragments/utils::searchFilter(object='booking')}" />
-            <div th:if="${bookings.empty}" th:text="#{booking.list.empty}" />
-            <div th:if="${!bookings.empty}" class="table-responsive">
-                <table class="table table-striped table-hover align-middle">
-                    <thead>
-                        <tr>
-                            <th th:text="#{booking.id.label}" scope="col" />
-                            <th th:text="#{booking.startDateTime.label}" scope="col" />
-                            <th th:text="#{booking.endDateTime.label}" scope="col" />
-                            <th th:text="#{booking.caregiver.label}" scope="col" />
-                            <th th:text="#{booking.carerecivier.label}" scope="col" />
-                            <th th:text="#{booking.services.label}" scope="col" />
-                            <th><!-- --></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="booking : ${bookings}">
-                            <td th:text="${booking.id}" />
-                            <td th:text="${booking.startDateTime}" />
-                            <td th:text="${booking.endDateTime}" />
-                            <td th:text="${booking.caregiver}" />
-                            <td th:text="${booking.carerecivier}" />
-                            <td th:text="${booking.services}" />
-                            <td>
-                                <div class="float-end text-nowrap">
-                                    <a th:href="@{/bookings/edit/{id}(id=${booking.id})}" th:text="#{booking.list.edit}" class="btn btn-sm btn-info" />
-                                    <form th:action="@{/bookings/delete/{id}(id=${booking.id})}"
-                                            th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
-                                        <button th:text="#{booking.list.delete}" type="submit" class="btn btn-sm btn-danger" />
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div th:replace="~{fragments/utils::pagination()}" />
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="#{booking.list.headline}"/>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="d-flex flex-wrap mb-4">
+        <h1 th:text="#{booking.list.headline}" class="flex-grow-1"/>
+        <div>
+            <a th:href="@{/bookings/add}" th:text="#{booking.list.createNew}" class="btn btn-primary ms-2"/>
         </div>
-    </body>
+    </div>
+    <div th:replace="~{fragments/utils::searchFilter(object='booking')}"/>
+    <div th:if="${bookings.empty}" th:text="#{booking.list.empty}"/>
+    <div th:if="${!bookings.empty}" class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+            <tr>
+                <th th:text="#{booking.id.label}" scope="col"/>
+                <th th:text="#{booking.startDateTime.label}" scope="col"/>
+                <th th:text="#{booking.endDateTime.label}" scope="col"/>
+                <th th:text="#{booking.caregiver.label}" scope="col"/>
+                <th th:text="#{booking.carerecivier.label}" scope="col"/>
+                <th th:text="#{booking.services.label}" scope="col"/>
+                <th><!-- --></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="booking : ${bookings}">
+                <td th:text="${booking.id}"/>
+                <td th:text="${booking.startDateTime}"/>
+                <td th:text="${booking.endDateTime}"/>
+                <td th:text="${booking.caregiver}"/>
+                <td th:text="${booking.carerecivier}"/>
+                <td th:text="${booking.services}"/>
+                <td>
+                    <div class="float-end text-nowrap">
+                        <a th:href="@{/bookings/edit/{id}(id=${booking.id})}" th:text="#{booking.list.edit}"
+                           class="btn btn-sm btn-info"/>
+                        <form th:action="@{/bookings/delete/{id}(id=${booking.id})}"
+                              th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
+                            <button th:text="#{booking.list.delete}" type="submit" class="btn btn-sm btn-danger"/>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="~{fragments/utils::pagination()}"/>
+</div>
+</body>
 </html>

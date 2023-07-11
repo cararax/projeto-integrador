@@ -4,7 +4,6 @@ import com.carara.nursenow.model.ErrorResponse;
 import com.carara.nursenow.model.FieldError;
 import com.carara.nursenow.util.NotFoundException;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 
 @RestControllerAdvice(annotations = RestController.class)

@@ -5,31 +5,20 @@ import com.carara.nursenow.domain.Service;
 import com.carara.nursenow.domain.Users;
 import com.carara.nursenow.model.HttpUserDetails;
 import com.carara.nursenow.model.ROLE;
-import com.carara.nursenow.model.SimplePage;
 import com.carara.nursenow.model.UsersDTO;
 import com.carara.nursenow.repos.CityRepository;
 import com.carara.nursenow.service.UsersService;
 import com.carara.nursenow.util.CustomCollectors;
-import com.carara.nursenow.util.NotFoundException;
 import com.carara.nursenow.util.WebUtils;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -57,47 +46,14 @@ public class UsersController {
                 .collect(CustomCollectors.toSortedMap(City::getId, City::getName)));
     }
 
-//    @GetMapping
-//    public String list(@RequestParam(required = false) final String filter,
-//                       @SortDefault(sort = "id") @PageableDefault(size = 20) final Pageable pageable,
-//                       final Model model) {
-//        final SimplePage<UsersDTO> userss = usersService.findAll(filter, pageable);
-//        model.addAttribute("userss", userss);
-//        model.addAttribute("filter", filter);
-//        model.addAttribute("paginationModel", WebUtils.getPaginationModel(userss));
-//        return "users/list";
-//    }
-
-//    @GetMapping("/caregivers")
-//    public String listCaregivers(Model model) {
-//        List<City> allCities = usersService.getAllCities();
-//        List<Service> allServices = usersService.getAllServices();
-//        List<Users> allCaregivers = usersService.getAllCaregivers();
-//
-//        model.addAttribute("services", allServices);
-//        model.addAttribute("cities", allCities);
-//        model.addAttribute("caregivers", allCaregivers);
-//        return "users/caregiverList";
-//    }
-
     @GetMapping("/caregivers")
     public String getCaregiverDetails(@RequestParam(value = "name", required = false) String name,
                                       @RequestParam(value = "city", required = false) Long city,
                                       @RequestParam(value = "service", required = false) Long service,
                                       Model model) {
-        // Faça o processamento necessário com os parâmetros recebidos
-        log.info("Detalhes do cuidador: Nome - " + name + ", Cidade - " + city + ", Serviço - " + service);
         List<City> allCities = usersService.getAllCities();
         List<Service> allServices = usersService.getAllServices().stream().distinct().toList();
-        List<Users> allCaregivers = usersService.getAllCaregivers();
-
-
-        List<Users> filteredCaregivers = usersService.
-                findByProperties(name, city, service);
-
-
-
-
+        List<Users> filteredCaregivers = usersService.findByProperties(name, city, service);
 
         model.addAttribute("services", allServices);
         model.addAttribute("cities", allCities);
@@ -119,13 +75,11 @@ public class UsersController {
         } else {
             return "users/carerecivier";
         }
-//        return "users/profile";
     }
 
     @GetMapping("/profile")
     public String profile(Model model) {
         HttpUserDetails userDetails = (HttpUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        Users user = usersService.getByEmailIgnoreCase(userDetails.getUsername());
         Users user = usersService.findById(userDetails.getId());
 
         model.addAttribute("users", user);
@@ -192,7 +146,6 @@ public class UsersController {
         }
         return "redirect:/userss";
     }
-
 
 }
 

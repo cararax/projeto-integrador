@@ -19,12 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -37,7 +32,7 @@ public class ExperienceController {
     private final UsersRepository usersRepository;
 
     public ExperienceController(final ExperienceService experienceService,
-            final UsersRepository usersRepository) {
+                                final UsersRepository usersRepository) {
         this.experienceService = experienceService;
         this.usersRepository = usersRepository;
     }
@@ -51,8 +46,8 @@ public class ExperienceController {
 
     @GetMapping
     public String list(@RequestParam(required = false) final String filter,
-            @SortDefault(sort = "id") @PageableDefault(size = 20) final Pageable pageable,
-            final Model model) {
+                       @SortDefault(sort = "id") @PageableDefault(size = 20) final Pageable pageable,
+                       final Model model) {
         final SimplePage<ExperienceDTO> experiences = experienceService.findAll(filter, pageable);
         model.addAttribute("experiences", experiences);
         model.addAttribute("filter", filter);
@@ -67,7 +62,7 @@ public class ExperienceController {
 
     @PostMapping("/add")
     public String add(@ModelAttribute("experience") @Valid final ExperienceDTO experienceDTO,
-            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+                      final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "experience/add";
         }
@@ -75,7 +70,6 @@ public class ExperienceController {
 
         experienceService.create(experienceDTO, userDetails.getUsername());
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("experience.create.success"));
-//        return "redirect:/experiences";
         return "redirect:/userss/profile";
     }
 
@@ -87,14 +81,13 @@ public class ExperienceController {
 
     @PostMapping("/edit/{id}")
     public String edit(@PathVariable final Long id,
-            @ModelAttribute("experience") @Valid final ExperienceDTO experienceDTO,
-            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+                       @ModelAttribute("experience") @Valid final ExperienceDTO experienceDTO,
+                       final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "experience/edit";
         }
         experienceService.update(id, experienceDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("experience.update.success"));
-//        return "redirect:/experiences";
         return "redirect:/userss/profile";
     }
 
@@ -102,7 +95,6 @@ public class ExperienceController {
     public String delete(@PathVariable final Long id, final RedirectAttributes redirectAttributes) {
         experienceService.delete(id);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("experience.delete.success"));
-//        return "redirect:/experiences";
         return "redirect:/userss/profile";
     }
 

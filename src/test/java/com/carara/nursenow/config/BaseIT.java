@@ -6,7 +6,9 @@ import com.carara.nursenow.repos.CityRepository;
 import com.carara.nursenow.repos.ExperienceRepository;
 import com.carara.nursenow.repos.ServiceRepository;
 import com.carara.nursenow.repos.UsersRepository;
+
 import java.nio.charset.Charset;
+
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -74,7 +76,7 @@ public abstract class BaseIT {
         if (authenticatedSession == null) {
             final MvcResult mvcResult = mockMvc.perform(
                     SecurityMockMvcRequestBuilders.formLogin().user("email", "bootify").password("password", "Bootify!")).andReturn();
-            authenticatedSession = ((MockHttpSession)mvcResult.getRequest().getSession(false));
+            authenticatedSession = ((MockHttpSession) mvcResult.getRequest().getSession(false));
         }
         return authenticatedSession;
     }

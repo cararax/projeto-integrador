@@ -21,7 +21,7 @@ public class BookingService {
     private final ServiceRepository serviceRepository;
 
     public BookingService(final BookingRepository bookingRepository,
-            final UsersRepository usersRepository, final ServiceRepository serviceRepository) {
+                          final UsersRepository usersRepository, final ServiceRepository serviceRepository) {
         this.bookingRepository = bookingRepository;
         this.usersRepository = usersRepository;
         this.serviceRepository = serviceRepository;

@@ -3,30 +3,9 @@
       layout:decorate="~{layout}">
 <head>
     <title th:text="#{users.profile.view}"></title>
-<!--    <style>-->
-<!--        .info-item {-->
-<!--            margin-bottom: 10px;-->
-<!--        }-->
-
-<!--        .edit-button {-->
-<!--            margin-left: 5px;-->
-<!--        }-->
-
-<!--        .delete-button {-->
-<!--            margin-left: 5px;-->
-<!--        }-->
-<!--    </style>-->
 </head>
 <body>
 <div layout:fragment="content">
-<!--    <div class="d-flex flex-wrap mb-4">-->
-<!--        <h1>-->
-<!--            <span th:text="#{users.profile.info}"></span>-->
-<!--            <span th:text="${users.firstname}"></span>-->
-<!--            <span th:text="${users.lastname}"></span>-->
-<!--        </h1>-->
-<!--    </div>-->
-
     <main class="my-5">
         <div class="container">
             <div class="row">
@@ -51,16 +30,16 @@
                     <div class="info-item">
                         <strong th:text="#{users.city.label}"/>: <span th:text="${users.city.name}"></span>
                     </div>
-<!--                    <a th:href="@{/userss/edit/{id}(id=${users.id})}" th:text="#{users.list.edit}"-->
-<!--                       class="btn btn-sm btn-primary edit-button"></a>-->
+                    <!--                    <a th:href="@{/userss/edit/{id}(id=${users.id})}" th:text="#{users.list.edit}"-->
+                    <!--                       class="btn btn-sm btn-primary edit-button"></a>-->
                 </div>
             </div>
             <br><br>
             <div class="row">
                 <div class="col-md-6">
                     <h2 th:text="#{experience.list.headline}"></h2>
-<!--                    <a th:href="@{/experiences/add}" th:text="#{experience.list.createNew}"-->
-<!--                       class="btn btn-primary mb-2"></a>-->
+                    <!--                    <a th:href="@{/experiences/add}" th:text="#{experience.list.createNew}"-->
+                    <!--                       class="btn btn-primary mb-2"></a>-->
                     <ul>
                         <li th:each="experience : ${users.experience}">
                             <strong th:text="${experience.company}"></strong>
@@ -98,14 +77,14 @@
                                     th:text="${service.duration}"></span>
                             </div>
                             <div>
-                                <strong th:text="#{service.description.label}"/>:  <span
+                                <strong th:text="#{service.description.label}"/>: <span
                                     th:text="${service.description}"></span>
                             </div>
                             <div>
                                 <strong th:text="#{service.price.label}"/>: <span
                                     th:text="${service.price}"></span>
                             </div>
-                            <a  class="btn btn-primary edit-button"
+                            <a class="btn btn-primary edit-button"
                                th:text="Contratar"></a>
 <!--                            <form th:action="@{/services/delete/{id}(id=${service.id})}"-->
 <!--                                  th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">-->
@@ -116,7 +95,7 @@
                     </ul>
                 </div>
             </div>
-            </div>
+        </div>
     </main>
 </div>
 </body>

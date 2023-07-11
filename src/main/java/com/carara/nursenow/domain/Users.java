@@ -2,12 +2,11 @@ package com.carara.nursenow.domain;
 
 import com.carara.nursenow.model.ROLE;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.Set;
-
-import lombok.Getter;
-import lombok.Setter;
 
 
 @Entity
@@ -27,7 +26,6 @@ public class Users {
     private String lastname;
 
     @Column(nullable = false, unique = true)
-//    @Column(nullable = false, unique = false)
     private String email;
 
     @Column(nullable = false)
@@ -56,7 +54,7 @@ public class Users {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "caregiver")
     private Set<Experience> experience;
 
-    @OneToMany(fetch = FetchType.EAGER ,mappedBy = "caregiver")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "caregiver")
     private Set<Service> service;
 
 }

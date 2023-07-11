@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class ServiceService {
 
@@ -22,7 +21,7 @@ public class ServiceService {
     private final BookingRepository bookingRepository;
 
     public ServiceService(final ServiceRepository serviceRepository,
-            final UsersRepository usersRepository, final BookingRepository bookingRepository) {
+                          final UsersRepository usersRepository, final BookingRepository bookingRepository) {
         this.serviceRepository = serviceRepository;
         this.usersRepository = usersRepository;
         this.bookingRepository = bookingRepository;
@@ -60,6 +59,7 @@ public class ServiceService {
         mapToEntity(serviceDTO, service);
         return serviceRepository.save(service).getId();
     }
+
     public Long create(final ServiceDTO serviceDTO) {
         final com.carara.nursenow.domain.Service service = new com.carara.nursenow.domain.Service();
         mapToEntity(serviceDTO, service);
@@ -79,7 +79,7 @@ public class ServiceService {
     }
 
     private ServiceDTO mapToDTO(final com.carara.nursenow.domain.Service service,
-            final ServiceDTO serviceDTO) {
+                                final ServiceDTO serviceDTO) {
         serviceDTO.setId(service.getId());
         serviceDTO.setName(service.getName());
         serviceDTO.setDuration(service.getDuration());
@@ -90,7 +90,7 @@ public class ServiceService {
     }
 
     private com.carara.nursenow.domain.Service mapToEntity(final ServiceDTO serviceDTO,
-            final com.carara.nursenow.domain.Service service) {
+                                                           final com.carara.nursenow.domain.Service service) {
         service.setName(serviceDTO.getName());
         service.setDuration(serviceDTO.getDuration());
         service.setDescription(serviceDTO.getDescription());

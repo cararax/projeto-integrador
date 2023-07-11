@@ -19,12 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -37,7 +32,7 @@ public class ServiceController {
     private final UsersRepository usersRepository;
 
     public ServiceController(final ServiceService serviceService,
-            final UsersRepository usersRepository) {
+                             final UsersRepository usersRepository) {
         this.serviceService = serviceService;
         this.usersRepository = usersRepository;
     }
@@ -51,8 +46,8 @@ public class ServiceController {
 
     @GetMapping
     public String list(@RequestParam(required = false) final String filter,
-            @SortDefault(sort = "id") @PageableDefault(size = 20) final Pageable pageable,
-            final Model model) {
+                       @SortDefault(sort = "id") @PageableDefault(size = 20) final Pageable pageable,
+                       final Model model) {
         final SimplePage<ServiceDTO> services = serviceService.findAll(filter, pageable);
         model.addAttribute("services", services);
         model.addAttribute("filter", filter);
@@ -67,7 +62,7 @@ public class ServiceController {
 
     @PostMapping("/add")
     public String add(@ModelAttribute("service") @Valid final ServiceDTO serviceDTO,
-            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+                      final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "service/add";
         }
@@ -75,7 +70,6 @@ public class ServiceController {
 
         serviceService.create(serviceDTO, userDetails.getUsername());
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("service.create.success"));
-//        return "redirect:/services";
         return "redirect:/userss/profile";
     }
 
@@ -87,14 +81,13 @@ public class ServiceController {
 
     @PostMapping("/edit/{id}")
     public String edit(@PathVariable final Long id,
-            @ModelAttribute("service") @Valid final ServiceDTO serviceDTO,
-            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+                       @ModelAttribute("service") @Valid final ServiceDTO serviceDTO,
+                       final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "service/edit";
         }
         serviceService.update(id, serviceDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("service.update.success"));
-//        return "redirect:/services";
         return "redirect:/userss/profile";
     }
 
@@ -107,7 +100,6 @@ public class ServiceController {
             serviceService.delete(id);
             redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("service.delete.success"));
         }
-//        return "redirect:/services";
         return "redirect:/userss/profile";
     }
 

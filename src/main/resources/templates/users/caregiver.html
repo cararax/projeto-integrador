@@ -3,30 +3,9 @@
       layout:decorate="~{layout}">
 <head>
     <title th:text="#{users.profile.view}"></title>
-<!--    <style>-->
-<!--        .info-item {-->
-<!--            margin-bottom: 10px;-->
-<!--        }-->
-
-<!--        .edit-button {-->
-<!--            margin-left: 5px;-->
-<!--        }-->
-
-<!--        .delete-button {-->
-<!--            margin-left: 5px;-->
-<!--        }-->
-<!--    </style>-->
 </head>
 <body>
 <div layout:fragment="content">
-<!--    <div class="d-flex flex-wrap mb-4">-->
-<!--        <h1>-->
-<!--            <span th:text="#{users.profile.info}"></span>-->
-<!--            <span th:text="${users.firstname}"></span>-->
-<!--            <span th:text="${users.lastname}"></span>-->
-<!--        </h1>-->
-<!--    </div>-->
-
     <main class="my-5">
         <div class="container">
             <div class="row">
@@ -98,7 +77,7 @@
                                     th:text="${service.duration}"></span>
                             </div>
                             <div>
-                                <strong th:text="#{service.description.label}"/>:  <span
+                                <strong th:text="#{service.description.label}"/>: <span
                                     th:text="${service.description}"></span>
                             </div>
                             <div>
@@ -116,8 +95,6 @@
                     </ul>
                 </div>
             </div>
-            </div>
-
         </div>
     </main>
 </div>

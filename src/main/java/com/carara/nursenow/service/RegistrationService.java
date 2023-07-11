@@ -7,8 +7,6 @@ import com.carara.nursenow.repos.UsersRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
 @Service
 @Slf4j
 public class RegistrationService {
@@ -28,7 +26,6 @@ public class RegistrationService {
     }
 
     public void register(final RegistrationRequest registrationRequest) {
-        //todo: adicionar log para cada tipo de usuario
         log.info("registering new user: {}", registrationRequest.getEmail());
 
         final Users users = new Users();
@@ -39,7 +36,6 @@ public class RegistrationService {
 
         cityRepository.findById(registrationRequest.getCity()).ifPresent(users::setCity);
 
-//        users.setCity(registrationRequest.getCity());
         users.setRole(registrationRequest.getRole());
         users.setDescription(registrationRequest.getDescription());
         users.setElderyName(registrationRequest.getElderyName());
