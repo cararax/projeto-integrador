@@ -21,6 +21,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -194,11 +195,17 @@ public class UsersService {
     }
 
     public List<City> getAllCities() {
-        return cityRepository.findAll();
+        return cityRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(City::getName))
+                .toList();
     }
 
     public List<com.carara.nursenow.domain.Service> getAllServicesDistinct() {
-        return serviceRepository.findDistinctBy();
+        return serviceRepository.findDistinctBy()
+                .stream()
+                .sorted(Comparator.comparing(com.carara.nursenow.domain.Service::getName))
+                .toList();
     }
 
     private static String[] getFirstAndLastName(String fullName) {
@@ -243,7 +250,10 @@ public class UsersService {
             });
         }
 
-        return usersRepository.findAll(spec);
+        return usersRepository.findAll(spec)
+                .stream()
+                .sorted(Comparator.comparing(Users::getFirstname))
+                .toList();
     }
 
 }

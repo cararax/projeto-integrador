@@ -111,4 +111,7 @@ public class ServiceService {
         return null;
     }
 
+    public com.carara.nursenow.domain.Service findServiceById(Long serviceId) {
+        return serviceRepository.findById(serviceId).orElseThrow(NotFoundException::new);
+    }
 }

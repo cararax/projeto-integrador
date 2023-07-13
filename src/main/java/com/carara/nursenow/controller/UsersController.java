@@ -7,6 +7,7 @@ import com.carara.nursenow.model.HttpUserDetails;
 import com.carara.nursenow.model.ROLE;
 import com.carara.nursenow.model.UsersDTO;
 import com.carara.nursenow.repos.CityRepository;
+import com.carara.nursenow.service.ServiceService;
 import com.carara.nursenow.service.UsersService;
 import com.carara.nursenow.util.CustomCollectors;
 import com.carara.nursenow.util.WebUtils;
@@ -33,10 +34,13 @@ import java.util.stream.Collectors;
 public class UsersController {
 
     private final UsersService usersService;
+    private final ServiceService serviceService;
     private final CityRepository cityRepository;
 
-    public UsersController(final UsersService usersService, final CityRepository cityRepository) {
+
+    public UsersController(UsersService usersService, ServiceService serviceService, CityRepository cityRepository) {
         this.usersService = usersService;
+        this.serviceService = serviceService;
         this.cityRepository = cityRepository;
     }
 
@@ -53,20 +57,10 @@ public class UsersController {
                                       @RequestParam(value = "city", required = false) Long city,
                                       @RequestParam(value = "service", required = false) Long service,
                                       Model model) {
-        List<City> allCities = usersService.getAllCities()
-                .stream()
-                .sorted(Comparator.comparing(City::getName))
-                .toList();
-        //TODO: distinct
-        List<Service> allServices = usersService.getAllServicesDistinct()
-                .stream()
-                .sorted(Comparator.comparing(Service::getName))
-                .toList();
 
-        List<Users> filteredCaregivers = usersService.findByProperties(name, city, service)
-                .stream()
-                .sorted(Comparator.comparing(Users::getFirstname))
-                .toList();
+        List<City> allCities = usersService.getAllCities();
+        List<Service> allServices = usersService.getAllServicesDistinct();
+        List<Users> filteredCaregivers = usersService.findByProperties(name, city, service);
 
         model.addAttribute("services", allServices);
         model.addAttribute("cities", allCities);
@@ -88,6 +82,25 @@ public class UsersController {
         } else {
             return "users/carerecivier";
         }
+    }
+//    @PreAuthorize("hasAuthority('" + ROLE.Fields.CARERECIVIER + "')")
+
+    @GetMapping("/profile/{userId}/service/{serviceId}")
+    public String profile(@PathVariable("userId") final Long userId,
+                          @PathVariable("serviceId") final Long serviceId,
+                          final Model model) {
+        HttpUserDetails userDetails = (HttpUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Users carerecivier = usersService.findById(userDetails.getId());
+        Users caregiver = usersService.findById(userId);
+        Service service = serviceService.findServiceById(serviceId);
+
+        model.addAttribute("carerecivier", carerecivier);
+        model.addAttribute("caregiver", caregiver);
+        model.addAttribute("service", service);
+
+
+        return "booking/add";
+
     }
 
     @GetMapping("/profile")
