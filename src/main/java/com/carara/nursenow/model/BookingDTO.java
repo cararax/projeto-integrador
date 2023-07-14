@@ -1,7 +1,12 @@
 package com.carara.nursenow.model;
 
 import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,13 +18,14 @@ public class BookingDTO {
 
     private Long id;
 
-    @NotNull
+//    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
-    private OffsetDateTime startDateTime;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd") //'T'HH:mm:ssXXX")
+    private LocalDateTime startDateTime;
 
-    @NotNull
+//    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
-    private OffsetDateTime endDateTime;
+    private LocalDateTime endDateTime;
 
     private Long caregiver;
 

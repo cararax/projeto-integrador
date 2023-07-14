@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Cadastrar Booking</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="d-flex flex-wrap mb-4">
+        <h1>Cadastrar Booking</h1>
+        <div>
+            <a href="/userss" class="btn btn-secondary">Voltar</a>
+        </div>
+    </div>
+
+    <main class="my-5">
+        <div class="container">
+            <form method="post" action="/bookings">
+                <div class="form-group">
+                    <label for="startDateTime">Data e Hora de Início:</label>
+                    <input type="datetime-local" id="startDateTime" name="startDateTime" required/>
+                </div>
+                <div class="form-group">
+                    <label for="endDateTime">Data e Hora de Fim:</label>
+                    <input type="datetime-local" id="endDateTime" name="endDateTime" required/>
+                </div>
+                <div class="form-group">
+                    <label for="caregiver">Cuidador:</label>
+                    <select id="caregiver" name="caregiver" required>
+                        <!-- Carregar opções de cuidadores (pode ser feito via Thymeleaf ou JavaScript) -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="carerecivier">Cuidado:</label>
+                    <select id="carerecivier" name="carerecivier" required>
+                        <!-- Carregar opções de cuidados (pode ser feito via Thymeleaf ou JavaScript) -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="services">Serviço:</label>
+                    <select id="services" name="services" required>
+                        <!-- Carregar opções de serviços (pode ser feito via Thymeleaf ou JavaScript) -->
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

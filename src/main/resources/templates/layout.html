@@ -26,7 +26,7 @@
             <div class="collapse navbar-collapse" id="navbarToggle">
                 <ul class="navbar-nav ms-auto">
                     <li class="navbar-item">
-                        <a th:href="@{/}" th:text="#{navigation.home}" class="nav-link"/>
+                        <a sec:authorize="!isAuthenticated()"o th:href="@{/}" th:text="#{navigation.home}" class="nav-link"/>
                     </li>
                     <li class="navbar-item">
                         <a th:href="@{/userss/caregivers}" th:text="#{navigation.caregivers}" class="nav-link"/>
@@ -34,9 +34,9 @@
                     <li sec:authorize="isAuthenticated()">
                         <a th:href="@{/userss/profile}" th:text="#{navigation.profile}" class="nav-link"></a>
                     </li>
-<!--                    <li>-->
-<!--                        <a th:href="@{/}" th:text="${#authentication.principal.username}" class="nav-link"></a>-->
-<!--                    </li>-->
+                    <!--                    <li>-->
+                    <!--                        <a th:href="@{/}" th:text="${#authentication.principal.username}" class="nav-link"></a>-->
+                    <!--                    </li>-->
                     <li class="navbar-item dropdown">
                         <a th:text="#{navigation.entities}" class="nav-link dropdown-toggle" href="#"
                            id="navbarEntitiesLink" role="button"
@@ -58,6 +58,10 @@
                         <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="nav-link">
                             <input th:value="#{navigation.logout}" type="submit" class="unset"/>
                         </form>
+                    </li>
+                    <li class="navbar-item">
+                    <a sec:authorize="!isAuthenticated()" th:href="@{/login}"
+                       th:text="#{authentication.entrar}" class="nav-link"/>
                     </li>
                     <!-- Modificações para usuários não logados -->
                     <!--                    <li sec:authorize="!isAuthenticated()" class="navbar-item">-->

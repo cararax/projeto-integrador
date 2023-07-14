@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 
@@ -18,10 +20,10 @@ public class Booking {
     private Long id;
 
     @Column(nullable = false)
-    private OffsetDateTime startDateTime;
+    private LocalDateTime startDateTime;
 
     @Column(nullable = false)
-    private OffsetDateTime endDateTime;
+    private LocalDateTime endDateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "caregiver_id")

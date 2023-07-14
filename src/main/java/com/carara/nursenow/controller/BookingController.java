@@ -3,11 +3,14 @@ package com.carara.nursenow.controller;
 import com.carara.nursenow.domain.Service;
 import com.carara.nursenow.domain.Users;
 import com.carara.nursenow.model.BookingDTO;
+import com.carara.nursenow.model.HttpUserDetails;
 import com.carara.nursenow.model.ROLE;
 import com.carara.nursenow.model.SimplePage;
+import com.carara.nursenow.repos.CityRepository;
 import com.carara.nursenow.repos.ServiceRepository;
 import com.carara.nursenow.repos.UsersRepository;
 import com.carara.nursenow.service.BookingService;
+import com.carara.nursenow.service.UsersService;
 import com.carara.nursenow.util.CustomCollectors;
 import com.carara.nursenow.util.WebUtils;
 import jakarta.validation.Valid;
@@ -16,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,14 +33,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class BookingController {
 
     private final BookingService bookingService;
+    private final  UsersService usersService;
+
     private final UsersRepository usersRepository;
     private final ServiceRepository serviceRepository;
+    private final CityRepository cityRepository;
 
     public BookingController(final BookingService bookingService,
-                             final UsersRepository usersRepository, final ServiceRepository serviceRepository) {
+                             UsersService usersService, final UsersRepository usersRepository, final ServiceRepository serviceRepository, CityRepository cityRepository) {
         this.bookingService = bookingService;
+        this.usersService = usersService;
         this.usersRepository = usersRepository;
         this.serviceRepository = serviceRepository;
+        this.cityRepository = cityRepository;
     }
 
     @ModelAttribute
@@ -60,7 +69,8 @@ public class BookingController {
         model.addAttribute("bookings", bookings);
         model.addAttribute("filter", filter);
         model.addAttribute("paginationModel", WebUtils.getPaginationModel(bookings));
-        return "booking/list";
+//        return "booking/list";
+        return "booking/newBooking";
     }
 
     @GetMapping("/add")
@@ -77,6 +87,23 @@ public class BookingController {
         bookingService.create(bookingDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("booking.create.success"));
         return "redirect:/bookings";
+    }
+    @PostMapping("/addBooking")
+    public String addBooking(@ModelAttribute("booking") @Valid final BookingDTO bookingDTO,
+                      final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "booking/add";
+        }
+
+        HttpUserDetails userDetails = (HttpUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Users carerecivier = usersService.findById(userDetails.getId());
+        bookingDTO.setCarerecivier(carerecivier.getId());
+
+        bookingService.create(bookingDTO);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("booking.create.success"));
+//        return "redirect:/bookings";
+        return "booking/add";
     }
 
     @GetMapping("/edit/{id}")

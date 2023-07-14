@@ -12,6 +12,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 
 @Service
 public class BookingService {
@@ -54,6 +58,15 @@ public class BookingService {
     }
 
     public Long create(final BookingDTO bookingDTO) {
+        Optional<com.carara.nursenow.domain.Service> service =
+                serviceRepository.findById(bookingDTO.getServices());
+
+        Duration duration = Duration.ofMinutes(service.get().getDuration().longValue());
+        LocalDateTime endDateTime = bookingDTO.getStartDateTime().plus(duration);
+        bookingDTO.setEndDateTime(endDateTime);
+
+        //todo: check if caregiver is available
+
         final Booking booking = new Booking();
         mapToEntity(bookingDTO, booking);
         return bookingRepository.save(booking).getId();

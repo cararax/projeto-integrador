@@ -12,13 +12,62 @@
             <a th:href="@{/bookings}" th:text="#{booking.add.back}" class="btn btn-secondary"/>
         </div>
     </div>
-    <div th:replace="~{fragments/forms::globalErrors('booking')}"/>
-    <form th:action="${T(com.carara.nursenow.util.WebUtils).getRequest().requestURI}" method="post">
-        <div th:replace="~{fragments/forms::inputRow(object='booking', field='startDateTime')}"/>
-        <div th:replace="~{fragments/forms::inputRow(object='booking', field='endDateTime')}"/>
-        <div th:replace="~{fragments/forms::inputRow(object='booking', field='caregiver', type='select')}"/>
-        <div th:replace="~{fragments/forms::inputRow(object='booking', field='carerecivier', type='select')}"/>
-        <div th:replace="~{fragments/forms::inputRow(object='booking', field='services', type='select')}"/>
+        <div th:replace="~{fragments/forms::globalErrors('booking')}"/>
+<!--    <form th:action="${T(com.carara.nursenow.util.WebUtils).getRequest().requestURI}" method="post">-->
+        <form th:action="@{/bookings/addBooking}" method="post" th:object="${booking}">
+            <!--        <div th:replace="~{fragments/forms::inputRow(object='booking', field='startDateTime')}"/>-->
+        <!--        <div th:replace="~{fragments/forms::inputRow(object='booking', field='endDateTime')}"/>-->
+<!--        <div th:replace="~{fragments/forms::inputRow(object='booking', field='startDateTime')}"/>-->
+<!--        <div th:replace="~{fragments/forms::inputRow(object='booking', field='endDateTime')}"/>-->
+<!--            <div class="form-group row">-->
+<!--                <label for="startDateTime" class="col-sm-2 col-form-label">Data de início:</label>-->
+<!--                <div class="col-sm-10">-->
+<!--                    <input type="date" class="form-control" id="startDateTime" th:field="*{startDateTime}" required>-->
+<!--                </div>-->
+<!--            </div>-->
+
+        <div class="form-group row">
+            <label for="startDateTime" class="col-sm-2 col-form-label">Data e Hora de Início:</label>
+            <div class="col-sm-10">
+                <input type="datetime-local" class="form-control" id="startDateTime" name="startDateTime" required>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="caregiverRead" class="col-sm-2 col-form-label">Enfermeiro: </label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" id="caregiverRead" th:value="${caregiver.firstname + ' ' + caregiver.lastname}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="serviceName" class="col-sm-2 col-form-label">Nome do serviço: </label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" id="serviceName" th:value="${service.name}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="price" class="col-sm-2 col-form-label">Preço: </label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" id="price" th:value="${service.price}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="duration" class="col-sm-2 col-form-label">Duração: </label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" id="duration" th:value="${service.duration}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="description" class="col-sm-2 col-form-label">Descrição: </label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" id="description" th:value="${service.description}">
+            </div>
+        </div>
+            <input type="hidden" id="caregiver" name="caregiver" th:value="${caregiver.id}"/>
+            <input type="hidden" id="services" name="services" th:value="${service.id}"/>
+
+<!--            <input type="submit" value="Cadastrar" class="btn btn-primary mt-4"/>-->
         <input type="submit" th:value="#{booking.add.headline}" class="btn btn-primary mt-4"/>
     </form>
 </div>

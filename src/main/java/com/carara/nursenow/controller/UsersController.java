@@ -3,6 +3,7 @@ package com.carara.nursenow.controller;
 import com.carara.nursenow.domain.City;
 import com.carara.nursenow.domain.Service;
 import com.carara.nursenow.domain.Users;
+import com.carara.nursenow.model.BookingDTO;
 import com.carara.nursenow.model.HttpUserDetails;
 import com.carara.nursenow.model.ROLE;
 import com.carara.nursenow.model.UsersDTO;
@@ -89,11 +90,15 @@ public class UsersController {
     public String profile(@PathVariable("userId") final Long userId,
                           @PathVariable("serviceId") final Long serviceId,
                           final Model model) {
+
         HttpUserDetails userDetails = (HttpUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Users carerecivier = usersService.findById(userDetails.getId());
+
         Users caregiver = usersService.findById(userId);
+        Users carerecivier = usersService.findById(userDetails.getId());
         Service service = serviceService.findServiceById(serviceId);
 
+        BookingDTO bookingDTO = new BookingDTO();
+        model.addAttribute("booking", bookingDTO);
         model.addAttribute("carerecivier", carerecivier);
         model.addAttribute("caregiver", caregiver);
         model.addAttribute("service", service);
