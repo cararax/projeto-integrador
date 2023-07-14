@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -65,11 +66,28 @@ public class BookingService {
         LocalDateTime endDateTime = bookingDTO.getStartDateTime().plus(duration);
         bookingDTO.setEndDateTime(endDateTime);
 
-        //todo: check if caregiver is available
+        //todo: check if date isn't in the past
+        if (bookingDTO.getStartDateTime().isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Start date is in the past");
+        }
+
+        if (hasConcurrentBooking(bookingDTO)) {
+            throw new IllegalArgumentException("Caregiver is not available");
+        }
 
         final Booking booking = new Booking();
         mapToEntity(bookingDTO, booking);
         return bookingRepository.save(booking).getId();
+    }
+
+    public boolean hasConcurrentBooking(BookingDTO bookingDTO) {
+        LocalDateTime startDateTime = bookingDTO.getStartDateTime();
+        LocalDateTime endDateTime = bookingDTO.getEndDateTime();
+        Long caregiverId = bookingDTO.getCaregiver();
+
+        List<Booking> concurrentBookings = bookingRepository.findByCaregiverIdAndStartDateTimeBeforeAndEndDateTimeAfter(
+                caregiverId, endDateTime, startDateTime);
+        return !concurrentBookings.isEmpty();
     }
 
     public void update(final Long id, final BookingDTO bookingDTO) {

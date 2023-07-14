@@ -7,6 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
@@ -17,5 +20,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     Booking findFirstByCarerecivier(Users users);
 
     Booking findFirstByServices(Service service);
+
+    List<Booking> findByCaregiverIdAndStartDateTimeBeforeAndEndDateTimeAfter(
+            Long caregiverId, LocalDateTime endDateTime, LocalDateTime startDateTime);
 
 }
