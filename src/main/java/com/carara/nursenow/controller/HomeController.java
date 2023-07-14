@@ -22,16 +22,16 @@ public class HomeController {
         return "home/index";
     }
 
-    @GetMapping("/TESTE")
-    public String index2(final Model model) {
-        long caregiverId = 1001L;
-        List<Booking> futureBookingsByCarerecivierId = bookingService.findByCaregiverIdAndStartDateTimeAfter(caregiverId);
-        List<Booking> pastBookingsByCarerecivierId = bookingService.findByCaregiverIdAndEndDateTimeBefore(caregiverId);
-
-        model.addAttribute("bookings", bookingService.findAll(null, PageRequest.of(0, 10)));
-        model.addAttribute("futureBookings",futureBookingsByCarerecivierId);
-        model.addAttribute("pastBookings",pastBookingsByCarerecivierId);
-        return "home/teste";
-    }
+//    @GetMapping("/TESTE")
+//    public String index2(final Model model) {
+//        long caregiverId = 1001L;
+//        List<Booking> futureBookingsByCarerecivierId = bookingService.findByCaregiverIdAndStartDateTimeAfter(caregiverId);
+//        List<Booking> pastBookingsByCarerecivierId = bookingService.findByCaregiverIdAndEndDateTimeBefore(caregiverId);
+//
+//        model.addAttribute("bookings", bookingService.findAll(null, PageRequest.of(0, 10)));
+//        model.addAttribute("futureBookings",futureBookingsByCarerecivierId);
+//        model.addAttribute("pastBookings",pastBookingsByCarerecivierId);
+//        return "home/teste";
+//    }
 
 }

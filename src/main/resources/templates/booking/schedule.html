@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Lista de Bookings do Usuário</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="d-flex flex-wrap mb-4">
+        <h1>Consultar agendamentos</h1>
+        <div>
+            <a href="javascript:history.back()" class="btn btn-secondary">Voltar</a>
+            <!--            <a href="javascript:history.back()">Voltar111</a>-->
+
+        </div>
+    </div>
+    <!--    <div th:if="${futureBookings.empty && pastBookings.empty}" text="Nenhum booking encontrado."/>-->
+    <div th:if="${futureBookings.empty && pastBookings.empty}">
+        <p class="no-booking-message">Nenhum agendamento de serviço encontrado.</p>
+    </div>
+
+    <div th:if="${!futureBookings.empty}" class="table-responsive">
+        <h2>Próximos Agendamentos</h2>
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+            <tr>
+                <th>Serviço</th>
+                <th>Enfermeiro</th>
+                <th>Idoso</th>
+                <th>Data e Hora de Início</th>
+                <th>Horário final</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="booking : ${futureBookings}">
+                <td th:text="${booking.services.name}"/>
+                <td th:text="${booking.caregiver.firstname + ' ' + booking.caregiver.lastname}"></td>
+                <td th:text="${booking.carerecivier.elderyName }"></td>
+                <td>
+                    <span th:utext="${#temporals.format(booking.startDateTime, 'dd/MM/yyyy HH:mm')}"></span>
+                </td>
+                <td>
+                    <span th:utext="${#temporals.format(booking.endDateTime, 'dd/MM/yyyy HH:mm')}"></span>
+                </td>
+
+                <td th:text="Agendado"/>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${!pastBookings.empty}" class="table-responsive">
+        <h2>Agendamentos realizados</h2>
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+            <tr>
+                <th>Serviço</th>
+                <th>Enfermeiro</th>
+                <th>Idoso</th>
+                <th>Data e Hora de Início</th>
+                <th>Horário final</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="booking : ${pastBookings}">
+                <td th:text="${booking.services.name}"/>
+                <td th:text="${booking.caregiver.firstname + ' ' + booking.caregiver.lastname}"></td>
+                <td th:text="${booking.carerecivier.elderyName }"></td>
+                <td>
+                    <span th:utext="${#temporals.format(booking.startDateTime, 'dd/MM/yyyy HH:mm')}"></span>
+                </td>
+                <td>
+                    <span th:utext="${#temporals.format(booking.endDateTime, 'dd/MM/yyyy HH:mm')}"></span>
+                </td>
+                <td th:text="Realizado"/>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

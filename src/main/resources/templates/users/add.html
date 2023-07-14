@@ -22,7 +22,13 @@
                 <div th:replace="~{fragments/forms::inputRow(object='users', field='description', type='textarea')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='users', field='elderyName')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='users', field='healthDetails', type='textarea')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='users', field='elderyBirthDate', inputClass='js-datepicker')}" />
+<!--                <div th:replace="~{fragments/forms::inputRow(object='users', field='elderyBirthDate', inputClass='js-datepicker')}" />-->
+<!--                <div th:replace="~{fragments/forms::inputRow(object='users', field='elderyBirthDate', type:'date'}" />-->
+                <div class="input-row">
+                    <label for="elderyBirthDate">Data de Nascimento:</label>
+                    <input type="date" id="elderyBirthDate" name="elderyBirthDate">
+                </div>
+
                 <div th:replace="~{fragments/forms::inputRow(object='users', field='city', type='select')}" />
                 <input type="submit" th:value="#{users.add.headline}" class="btn btn-primary mt-4" />
             </form>

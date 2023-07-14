@@ -12,6 +12,7 @@ import com.carara.nursenow.service.ServiceService;
 import com.carara.nursenow.service.UsersService;
 import com.carara.nursenow.util.CustomCollectors;
 import com.carara.nursenow.util.WebUtils;
+import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;

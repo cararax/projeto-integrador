@@ -1,5 +1,6 @@
 package com.carara.nursenow.model;
 
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;

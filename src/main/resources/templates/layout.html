@@ -26,32 +26,38 @@
             <div class="collapse navbar-collapse" id="navbarToggle">
                 <ul class="navbar-nav ms-auto">
                     <li class="navbar-item">
-                        <a sec:authorize="!isAuthenticated()"o th:href="@{/}" th:text="#{navigation.home}" class="nav-link"/>
+                        <a sec:authorize="!isAuthenticated()"  th:href="@{/}" th:text="#{navigation.home}"
+                           class="nav-link"/>
                     </li>
-                    <li class="navbar-item">
+                    <li class="navbar-item" sec:authorize="isAuthenticated()">
                         <a th:href="@{/userss/caregivers}" th:text="#{navigation.caregivers}" class="nav-link"/>
                     </li>
+                    <li class="navbar-item" sec:authorize="isAuthenticated()">
+                        <a th:href="@{/bookings/agendamentos}" th:text="#{navigation.agentamentos}" class="nav-link"/>
+                    </li>
+
+
                     <li sec:authorize="isAuthenticated()">
                         <a th:href="@{/userss/profile}" th:text="#{navigation.profile}" class="nav-link"></a>
                     </li>
                     <!--                    <li>-->
                     <!--                        <a th:href="@{/}" th:text="${#authentication.principal.username}" class="nav-link"></a>-->
                     <!--                    </li>-->
-                    <li class="navbar-item dropdown">
-                        <a th:text="#{navigation.entities}" class="nav-link dropdown-toggle" href="#"
-                           id="navbarEntitiesLink" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false"/>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarEntitiesLink">
-                            <li><a th:href="@{/userss}" th:text="#{users.list.headline}" class="dropdown-item"/></li>
-                            <li><a th:href="@{/citys}" th:text="#{city.list.headline}" class="dropdown-item"/></li>
-                            <li><a th:href="@{/experiences}" th:text="#{experience.list.headline}"
-                                   class="dropdown-item"/></li>
-                            <li><a th:href="@{/services}" th:text="#{service.list.headline}" class="dropdown-item"/>
-                            </li>
-                            <li><a th:href="@{/bookings}" th:text="#{booking.list.headline}" class="dropdown-item"/>
-                            </li>
-                        </ul>
-                    </li>
+                    <!--                    <li class="navbar-item dropdown">-->
+                    <!--                        <a th:text="#{navigation.entities}" class="nav-link dropdown-toggle" href="#"-->
+                    <!--                           id="navbarEntitiesLink" role="button"-->
+                    <!--                           data-bs-toggle="dropdown" aria-expanded="false"/>-->
+                    <!--                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarEntitiesLink">-->
+                    <!--                            <li><a th:href="@{/userss}" th:text="#{users.list.headline}" class="dropdown-item"/></li>-->
+                    <!--                            <li><a th:href="@{/citys}" th:text="#{city.list.headline}" class="dropdown-item"/></li>-->
+                    <!--                            <li><a th:href="@{/experiences}" th:text="#{experience.list.headline}"-->
+                    <!--                                   class="dropdown-item"/></li>-->
+                    <!--                            <li><a th:href="@{/services}" th:text="#{service.list.headline}" class="dropdown-item"/>-->
+                    <!--                            </li>-->
+                    <!--                            <li><a th:href="@{/bookings}" th:text="#{booking.list.headline}" class="dropdown-item"/>-->
+                    <!--                            </li>-->
+                    <!--                        </ul>-->
+                    <!--                    </li>-->
                     <li class="navbar-item">
                         <a sec:authorize="!isAuthenticated()" th:href="@{/register/choose-role}"
                            th:text="#{registration.register.register}" class="nav-link"/>
@@ -60,8 +66,8 @@
                         </form>
                     </li>
                     <li class="navbar-item">
-                    <a sec:authorize="!isAuthenticated()" th:href="@{/login}"
-                       th:text="#{authentication.entrar}" class="nav-link"/>
+                        <a sec:authorize="!isAuthenticated()" th:href="@{/login}"
+                           th:text="#{authentication.entrar}" class="nav-link"/>
                     </li>
                     <!-- Modificações para usuários não logados -->
                     <!--                    <li sec:authorize="!isAuthenticated()" class="navbar-item">-->

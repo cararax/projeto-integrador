@@ -68,11 +68,11 @@ public class BookingService {
 
         //todo: check if date isn't in the past
         if (bookingDTO.getStartDateTime().isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Start date is in the past");
+            return -1L;
         }
 
         if (hasConcurrentBooking(bookingDTO)) {
-            throw new IllegalArgumentException("Caregiver is not available");
+            return -2L;
         }
 
         final Booking booking = new Booking();
@@ -101,14 +101,15 @@ public class BookingService {
         bookingRepository.deleteById(id);
     }
 
-    public List<Booking> findByCaregiverIdAndStartDateTimeAfter(Long caregiverId) {
+    public List<Booking> findByCarerecivierIdAndStartDateTimeAfter(Long carerecivierId) {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        return bookingRepository.findByCaregiverIdAndStartDateTimeAfter(caregiverId, currentDateTime);
+        return bookingRepository.findByCarerecivierIdAndStartDateTimeAfter(carerecivierId, currentDateTime);
     }
 
-    public List<Booking> findByCaregiverIdAndEndDateTimeBefore(Long caregiverId) {
+    public List<Booking> findByCarerecivierIdAndEndDateTimeBefore(Long carerecivierId) {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        return bookingRepository.findByCaregiverIdAndEndDateTimeBefore(caregiverId, currentDateTime);    }
+        return bookingRepository.findByCarerecivierIdAndEndDateTimeBefore(carerecivierId, currentDateTime);
+    }
 
     private BookingDTO mapToDTO(final Booking booking, final BookingDTO bookingDTO) {
         bookingDTO.setId(booking.getId());
@@ -135,4 +136,13 @@ public class BookingService {
         return booking;
     }
 
+    public List<Booking> findByCaregiverIdAndStartDateTimeAfter(long userId) {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        return bookingRepository.findByCaregiverIdAndStartDateTimeAfter(userId, currentDateTime);
+    }
+
+    public List<Booking> findByCaregiverIdAndEndDateTimeBefore(long userId) {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        return bookingRepository.findByCaregiverIdAndEndDateTimeBefore(userId, currentDateTime);
+    }
 }

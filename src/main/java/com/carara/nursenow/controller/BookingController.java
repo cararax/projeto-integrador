@@ -1,5 +1,6 @@
 package com.carara.nursenow.controller;
 
+import com.carara.nursenow.domain.Booking;
 import com.carara.nursenow.domain.Service;
 import com.carara.nursenow.domain.Users;
 import com.carara.nursenow.model.BookingDTO;
@@ -14,6 +15,7 @@ import com.carara.nursenow.service.UsersService;
 import com.carara.nursenow.util.CustomCollectors;
 import com.carara.nursenow.util.WebUtils;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -26,6 +28,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Controller
 @RequestMapping("/bookings")
@@ -33,7 +38,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class BookingController {
 
     private final BookingService bookingService;
-    private final  UsersService usersService;
+    private final UsersService usersService;
 
     private final UsersRepository usersRepository;
     private final ServiceRepository serviceRepository;
@@ -88,11 +93,16 @@ public class BookingController {
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("booking.create.success"));
         return "redirect:/bookings";
     }
+
     @PostMapping("/addBooking")
     public String addBooking(@ModelAttribute("booking") @Valid final BookingDTO bookingDTO,
-                      final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+                             final BindingResult bindingResult, final RedirectAttributes redirectAttributes,
+                             final Model model) {
         if (bindingResult.hasErrors()) {
-            return "booking/add";
+            model.addAttribute("errorMessage", "Data de inicio deve ser no futuro");
+            return "redirect:/error";
+//            return "error";
+//            return "booking/add";
         }
 
         HttpUserDetails userDetails = (HttpUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -100,10 +110,43 @@ public class BookingController {
         Users carerecivier = usersService.findById(userDetails.getId());
         bookingDTO.setCarerecivier(carerecivier.getId());
 
-        bookingService.create(bookingDTO);
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("booking.create.success"));
-//        return "redirect:/bookings";
-        return "booking/add";
+        Long aLong = bookingService.create(bookingDTO);
+
+        if (aLong == -1) {
+            model.addAttribute("errorMessage", "Data de inicio deve ser no futuro");
+            return "search/errorFuturo";
+        }
+
+        if (aLong == -2) {
+            model.addAttribute("errorMessage", "Enfermeiro não disponível neste horário");
+            return "search/errorEnfermeiro";
+        }
+
+
+        return "redirect:/bookings/agendamentos";
+    }
+
+    @GetMapping("/agendamentos")
+    public String getBookings(final Model model) {
+        HttpUserDetails userDetails = (HttpUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Users user = usersService.findById(userDetails.getId());
+        long userId = user.getId();
+
+        List<Booking> futureBookings = new ArrayList<>();
+        List<Booking> pastBookings = new ArrayList<>();
+        if (user.getRole() == ROLE.CARERECIVIER) {
+            futureBookings = bookingService.findByCarerecivierIdAndStartDateTimeAfter(userId);
+            pastBookings = bookingService.findByCarerecivierIdAndEndDateTimeBefore(userId);
+        } else if (user.getRole() == ROLE.CAREGIVER) {
+            futureBookings = bookingService.findByCaregiverIdAndStartDateTimeAfter(userId);
+            pastBookings = bookingService.findByCaregiverIdAndEndDateTimeBefore(userId);
+        }
+
+        model.addAttribute("bookings", bookingService.findAll(null, PageRequest.of(0, 10)));
+        model.addAttribute("futureBookings", futureBookings);
+        model.addAttribute("pastBookings", pastBookings);
+        model.addAttribute("role", user.getRole().toString());
+        return "booking/schedule";
     }
 
     @GetMapping("/edit/{id}")
