@@ -24,4 +24,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findByCaregiverIdAndStartDateTimeBeforeAndEndDateTimeAfter(
             Long caregiverId, LocalDateTime endDateTime, LocalDateTime startDateTime);
 
+    List<Booking> findByCaregiverIdAndEndDateTimeBefore(Long carerecivierId, LocalDateTime endDateTime);
+
+    List<Booking> findByCaregiverIdAndStartDateTimeAfter(Long caregiverId, LocalDateTime startDateTime);
+
 }

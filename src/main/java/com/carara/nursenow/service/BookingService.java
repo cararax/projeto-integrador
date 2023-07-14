@@ -101,6 +101,15 @@ public class BookingService {
         bookingRepository.deleteById(id);
     }
 
+    public List<Booking> findByCaregiverIdAndStartDateTimeAfter(Long caregiverId) {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        return bookingRepository.findByCaregiverIdAndStartDateTimeAfter(caregiverId, currentDateTime);
+    }
+
+    public List<Booking> findByCaregiverIdAndEndDateTimeBefore(Long caregiverId) {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        return bookingRepository.findByCaregiverIdAndEndDateTimeBefore(caregiverId, currentDateTime);    }
+
     private BookingDTO mapToDTO(final Booking booking, final BookingDTO bookingDTO) {
         bookingDTO.setId(booking.getId());
         bookingDTO.setStartDateTime(booking.getStartDateTime());

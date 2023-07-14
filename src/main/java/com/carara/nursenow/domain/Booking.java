@@ -25,15 +25,15 @@ public class Booking {
     @Column(nullable = false)
     private LocalDateTime endDateTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "caregiver_id")
     private Users caregiver;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "carerecivier_id")
     private Users carerecivier;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "services_id")
     private Service services;
 
